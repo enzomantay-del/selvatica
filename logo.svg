@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 180" width="420" height="180">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@200;300&amp;family=Poppins:wght@200;300&amp;display=swap');
+    </style>
+    <linearGradient id="trunkGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#5D4037"/>
+      <stop offset="100%" style="stop-color:#8B3A2A"/>
+    </linearGradient>
+    <linearGradient id="earthGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#8B3A2A"/>
+      <stop offset="100%" style="stop-color:#C0563A"/>
+    </linearGradient>
+  </defs>
+
+  <!-- TRONCO -->
+  <rect x="61" y="108" width="8" height="40" rx="3" fill="url(#trunkGrad)"/>
+
+  <!-- TIERRA MISIONERA -->
+  <rect x="30" y="148" width="70" height="5" rx="2.5" fill="url(#earthGrad)" opacity="0.95"/>
+
+  <!-- ARAUCARIA = WIFI AL REVÉS -->
+  <!-- Arco 1 — el más ancho, abajo, más oscuro -->
+  <path d="M14,108 Q65,135 116,108"
+    fill="none" stroke="#1B5E20" stroke-width="8"
+    stroke-linecap="round"/>
+
+  <!-- Arco 2 -->
+  <path d="M24,88 Q65,112 106,88"
+    fill="none" stroke="#2E7D32" stroke-width="7.5"
+    stroke-linecap="round"/>
+
+  <!-- Arco 3 -->
+  <path d="M34,68 Q65,90 96,68"
+    fill="none" stroke="#388E3C" stroke-width="7"
+    stroke-linecap="round"/>
+
+  <!-- Arco 4 -->
+  <path d="M44,50 Q65,70 86,50"
+    fill="none" stroke="#43A047" stroke-width="6.5"
+    stroke-linecap="round"/>
+
+  <!-- Arco 5 — el más angosto, arriba, más claro -->
+  <path d="M52,33 Q65,50 78,33"
+    fill="none" stroke="#66BB6A" stroke-width="6"
+    stroke-linecap="round"/>
+
+  <!-- Punta del árbol -->
+  <line x1="65" y1="14" x2="65" y2="33" stroke="#81C784" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="65" cy="11" r="5" fill="#81C784"/>
+
+  <!-- Punto WiFi central (base de la señal) -->
+  <circle cx="65" cy="115" r="5" fill="#1B5E20"/>
+
+  <!-- TEXTO -->
+  <text x="135" y="97"
+    font-family="Georgia, 'Times New Roman', serif"
+    font-size="58"
+    font-weight="700"
+    font-style="italic"
+    fill="#1B4332"
+    letter-spacing="-1">Selva</text>
+
+  <text x="291" y="97"
+    font-family="'Raleway', 'Poppins', sans-serif"
+    font-size="50"
+    font-weight="200"
+    fill="#0277BD"
+    letter-spacing="2">.tic</text>
+
+  <!-- Slogan -->
+  <text x="136" y="124"
+    font-family="'Raleway', 'Poppins', sans-serif"
+    font-size="12.5"
+    font-weight="300"
+    fill="#4A6741"
+    letter-spacing="4">TECNOLOGÍA APLICADA AL TURISMO</text>
+
+</svg>

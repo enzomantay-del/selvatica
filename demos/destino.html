@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Demo — Panel de Gestión Turística · Selva.tic</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --v: #1a6b3a; --vl: #e8f4e8; --am: #f0a500;
+      --bg: #f4f6f8; --white: #fff; --text: #2d3748;
+      --muted: #6b7a8d; --border: #e2e8f0; --r: 12px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); }
+
+    .demo-banner {
+      background: linear-gradient(90deg, #0a0a0a, #0d1b2a);
+      color: #fff; text-align: center; padding: 0.6rem;
+      font-size: 0.8rem; display: flex; align-items: center; justify-content: center; gap: 1rem;
+    }
+    .demo-banner a {
+      color: #00B4D8; font-weight: 600; text-decoration: none;
+      border: 1px solid #00B4D8; padding: 0.2rem 0.75rem; border-radius: 50px; font-size: 0.75rem;
+    }
+
+    header {
+      background: linear-gradient(135deg, var(--v), #0d4a26);
+      color: #fff; padding: 1.25rem 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    header h1 { font-size: 1.1rem; font-weight: 700; }
+    header p { font-size: 0.78rem; opacity: 0.75; margin-top: 2px; }
+    .h-badge {
+      background: rgba(255,255,255,0.15); padding: 0.4rem 1rem;
+      border-radius: 50px; font-size: 0.75rem; font-weight: 600;
+    }
+
+    .dashboard { max-width: 1100px; margin: 2rem auto; padding: 0 1.5rem; }
+
+    .kpis { display: grid; grid-template-columns: repeat(4,1fr); gap: 1rem; margin-bottom: 2rem; }
+    .kpi {
+      background: var(--white); border-radius: var(--r); padding: 1.25rem 1.5rem;
+      border: 1px solid var(--border); border-top: 3px solid var(--v);
+    }
+    .kpi-num { font-size: 2rem; font-weight: 700; color: var(--v); line-height: 1; }
+    .kpi-lbl { font-size: 0.78rem; color: var(--muted); margin-top: 0.3rem; }
+
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 1.25rem; }
+    .card { background: var(--white); border-radius: var(--r); border: 1px solid var(--border); overflow: hidden; }
+    .card-header { padding: 1rem 1.25rem; border-bottom: 1px solid var(--border); font-weight: 600; font-size: 0.9rem; display: flex; justify-content: space-between; align-items: center; }
+    .card-body { padding: 1.25rem; }
+
+    table { width: 100%; border-collapse: collapse; font-size: 0.83rem; }
+    th { text-align: left; padding: 0.5rem 0.75rem; color: var(--muted); font-weight: 600; font-size: 0.75rem; text-transform: uppercase; border-bottom: 1px solid var(--border); }
+    td { padding: 0.65rem 0.75rem; border-bottom: 1px solid #f0f0f0; }
+    tr:last-child td { border-bottom: none; }
+    .badge { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 50px; font-size: 0.72rem; font-weight: 600; }
+    .badge-green { background: var(--vl); color: var(--v); }
+    .badge-blue { background: #e8f0fe; color: #1a56db; }
+    .badge-orange { background: #fff3cd; color: #856404; }
+
+    .chart-wrap { display: flex; align-items: flex-end; gap: 6px; height: 100px; }
+    .bar-col { display: flex; flex-direction: column; align-items: center; flex: 1; gap: 4px; }
+    .bar { background: linear-gradient(to top, var(--v), #4caf50); border-radius: 4px 4px 0 0; width: 100%; transition: height 0.5s ease; }
+    .bar-lbl { font-size: 0.6rem; color: var(--muted); }
+
+    .proc-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; font-size: 0.82rem; }
+    .proc-bar-wrap { flex: 1; background: var(--bg); border-radius: 4px; height: 7px; }
+    .proc-bar { height: 7px; background: var(--v); border-radius: 4px; }
+
+    footer.demo-footer {
+      text-align: center; padding: 2rem; font-size: 0.8rem; color: var(--muted);
+      border-top: 1px solid var(--border); margin-top: 2rem;
+    }
+    footer.demo-footer a { color: #00B4D8; font-weight: 600; }
+  </style>
+</head>
+<body>
+
+  <div class="demo-banner">
+    ⚡ Demo interactivo — Panel de Gestión Turística · Selva.tic
+    <a href="../index.html">← Volver al sitio</a>
+  </div>
+
+  <header>
+    <div>
+      <h1>🌿 TuriGest — Panel Municipal</h1>
+      <p>Sistema de Gestión Turística · Municipio de Ejemplo, Misiones</p>
+    </div>
+    <span class="h-badge">Director/a de Turismo</span>
+  </header>
+
+  <div class="dashboard">
+
+    <!-- KPIs -->
+    <div class="kpis">
+      <div class="kpi"><div class="kpi-num">47</div><div class="kpi-lbl">Huéspedes activos hoy</div></div>
+      <div class="kpi"><div class="kpi-num">312</div><div class="kpi-lbl">Visitantes este mes</div></div>
+      <div class="kpi"><div class="kpi-num">68%</div><div class="kpi-lbl">Ocupación promedio</div></div>
+      <div class="kpi"><div class="kpi-num">4.7★</div><div class="kpi-lbl">Satisfacción turistas</div></div>
+    </div>
+
+    <div class="grid2">
+
+      <!-- Tabla huéspedes -->
+      <div class="card">
+        <div class="card-header">
+          👥 Huéspedes activos
+          <span class="badge badge-green">En tiempo real</span>
+        </div>
+        <div class="card-body">
+          <table>
+            <thead>
+              <tr><th>Nombre</th><th>Alojamiento</th><th>Origen</th><th>Egreso</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Lucía Fernández</strong></td><td>Hostería Las Palmas</td><td>🇦🇷 Buenos Aires</td><td>07/04</td></tr>
+              <tr><td><strong>Família Sánchez</strong></td><td>Cabañas del Río</td><td>🇦🇷 Córdoba</td><td>08/04</td></tr>
+              <tr><td><strong>João Silva</strong></td><td>Hotel Selva Verde</td><td>🇧🇷 Foz do Iguaçu</td><td>06/04</td></tr>
+              <tr><td><strong>María González</strong></td><td>Hostería Las Palmas</td><td>🇦🇷 Rosario</td><td>09/04</td></tr>
+              <tr><td><strong>Carlos Ríos</strong></td><td>Cabañas del Río</td><td>🇦🇷 Posadas</td><td>07/04</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Eventos -->
+      <div class="card">
+        <div class="card-header">
+          🎪 Próximos eventos
+          <span class="badge badge-blue">3 activos</span>
+        </div>
+        <div class="card-body">
+          <table>
+            <thead>
+              <tr><th>Evento</th><th>Fecha</th><th>Lugar</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>🎨 Feria de Artesanos</strong></td><td>5 Abr</td><td>Plaza Central</td></tr>
+              <tr><td><strong>🎶 Show Folclórico</strong></td><td>6 Abr</td><td>Anfiteatro</td></tr>
+              <tr><td><strong>🌿 Caminata Ecoturística</strong></td><td>8 Abr</td><td>Reserva</td></tr>
+              <tr><td><strong>🍽️ Festival Gastronómico</strong></td><td>12 Abr</td><td>Costanera</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="grid2">
+
+      <!-- Gráfico por mes -->
+      <div class="card">
+        <div class="card-header">📊 Visitantes por mes — 2026</div>
+        <div class="card-body">
+          <div class="chart-wrap" id="chart"></div>
+        </div>
+      </div>
+
+      <!-- Procedencias -->
+      <div class="card">
+        <div class="card-header">🗺️ Origen de turistas</div>
+        <div class="card-body">
+          <div class="proc-row"><span style="min-width:130px">🇦🇷 Buenos Aires</span><div class="proc-bar-wrap"><div class="proc-bar" style="width:72%"></div></div><span>72%</span></div>
+          <div class="proc-row"><span style="min-width:130px">🇦🇷 Córdoba</span><div class="proc-bar-wrap"><div class="proc-bar" style="width:48%"></div></div><span>48%</span></div>
+          <div class="proc-row"><span style="min-width:130px">🇧🇷 Brasil</span><div class="proc-bar-wrap"><div class="proc-bar" style="width:35%"></div></div><span>35%</span></div>
+          <div class="proc-row"><span style="min-width:130px">🇦🇷 Rosario</span><div class="proc-bar-wrap"><div class="proc-bar" style="width:28%"></div></div><span>28%</span></div>
+          <div class="proc-row"><span style="min-width:130px">🇺🇾 Uruguay</span><div class="proc-bar-wrap"><div class="proc-bar" style="width:18%"></div></div><span>18%</span></div>
+          <div class="proc-row"><span style="min-width:130px">🇵🇾 Paraguay</span><div class="proc-bar-wrap"><div class="proc-bar" style="width:12%"></div></div><span>12%</span></div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <footer class="demo-footer">
+    Demo interactivo creado por <a href="../index.html">Selva.tic</a> · ¿Querés este sistema para tu municipio? <a href="../index.html#contacto">Hablemos →</a>
+  </footer>
+
+  <script>
+    const datos = [28, 35, 42, 38, 20, 15, 48, 52, 39, 31, 44, 55];
+    const meses = ['E','F','M','A','M','J','J','A','S','O','N','D'];
+    const max = Math.max(...datos);
+    const chart = document.getElementById('chart');
+    chart.innerHTML = datos.map((n, i) => `
+      <div class="bar-col">
+        <div class="bar" style="height:${Math.round(n/max*90)}px" title="${n} visitantes"></div>
+        <div class="bar-lbl">${meses[i]}</div>
+      </div>`).join('');
+  </script>
+
+</body>
+</html>

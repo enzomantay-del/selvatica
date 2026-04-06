@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Demo — Agencia de Viajes · Selva.tic</title>
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --blue:  #0077B6; --blue-lt: #00B4D8; --orange: #F4A261;
+      --dark:  #0d1b2a; --white: #fff; --bg: #f0f6fc; --muted: #6b7a8d; --border: #dde8f0;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--dark); }
+
+    .demo-banner {
+      background: linear-gradient(90deg, #0a0a0a, #0d1b2a);
+      color: #fff; text-align: center; padding: 0.6rem;
+      font-size: 0.8rem; display: flex; align-items: center; justify-content: center; gap: 1rem;
+    }
+    .demo-banner a {
+      color: #00B4D8; font-weight: 600; text-decoration: none;
+      border: 1px solid #00B4D8; padding: 0.2rem 0.75rem; border-radius: 50px; font-size: 0.75rem;
+    }
+
+    nav {
+      background: var(--dark); padding: 1rem 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 50;
+    }
+    .nav-brand { font-family: 'Raleway', sans-serif; font-size: 1.3rem; font-weight: 800; color: #fff; }
+    .nav-brand span { color: var(--blue-lt); }
+    .nav-links-a { list-style: none; display: flex; gap: 1.5rem; }
+    .nav-links-a a { color: rgba(255,255,255,0.7); font-size: 0.88rem; }
+    .nav-links-a a:hover { color: var(--blue-lt); }
+    .nav-btn-a {
+      background: var(--orange); color: var(--dark); font-weight: 700;
+      font-size: 0.85rem; padding: 0.55rem 1.25rem; border-radius: 7px;
+    }
+
+    .hero-a {
+      background: linear-gradient(135deg, var(--dark) 0%, #0d3b6e 100%);
+      padding: 5rem 2rem 4rem; text-align: center;
+    }
+    .hero-a h1 {
+      font-family: 'Raleway', sans-serif; font-size: clamp(2rem,4vw,3.5rem);
+      font-weight: 800; color: #fff; margin-bottom: 1rem;
+    }
+    .hero-a h1 span { color: var(--blue-lt); }
+    .hero-a p { color: rgba(255,255,255,0.7); font-size: 1.05rem; margin-bottom: 2rem; }
+
+    /* FILTROS */
+    .filtros {
+      background: var(--white); padding: 1.25rem 2rem;
+      display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    }
+    .filtros label { font-size: 0.8rem; font-weight: 600; color: var(--muted); }
+    .filtros select {
+      border: 1px solid var(--border); border-radius: 7px; padding: 0.55rem 1rem;
+      font-family: 'Inter', sans-serif; font-size: 0.85rem; outline: none; cursor: pointer;
+      background: var(--bg);
+    }
+    .filtros select:focus { border-color: var(--blue); }
+    .btn-filtrar {
+      background: var(--blue); color: #fff; border: none;
+      font-family: 'Inter', sans-serif; font-size: 0.85rem; font-weight: 600;
+      padding: 0.55rem 1.25rem; border-radius: 7px; cursor: pointer; margin-left: auto;
+    }
+
+    /* PAQUETES */
+    .paquetes-section { padding: 3rem 2rem; max-width: 1200px; margin: 0 auto; }
+    .paq-titulo { font-family: 'Raleway', sans-serif; font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem; }
+    .paq-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; }
+    .paq-card {
+      background: var(--white); border-radius: 14px; overflow: hidden;
+      border: 1px solid var(--border); transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .paq-card:hover { transform: translateY(-5px); box-shadow: 0 14px 40px rgba(0,119,182,0.12); }
+    .paq-img {
+      height: 180px; display: flex; align-items: center; justify-content: center;
+      font-size: 4rem; position: relative;
+      background: linear-gradient(135deg, var(--dark), #0d3b6e);
+    }
+    .paq-badge {
+      position: absolute; top: 12px; right: 12px;
+      background: var(--orange); color: var(--dark); font-size: 0.72rem;
+      font-weight: 700; padding: 0.25rem 0.65rem; border-radius: 50px;
+    }
+    .paq-body { padding: 1.25rem; }
+    .paq-destino { font-size: 0.72rem; color: var(--blue); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.4rem; }
+    .paq-body h3 { font-family: 'Raleway', sans-serif; font-size: 1.05rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .paq-body p { font-size: 0.82rem; color: var(--muted); margin-bottom: 1rem; line-height: 1.5; }
+    .paq-meta { display: flex; gap: 0.75rem; margin-bottom: 1rem; }
+    .paq-meta span { font-size: 0.75rem; color: #555; background: var(--bg); padding: 0.25rem 0.6rem; border-radius: 50px; }
+    .paq-precio { font-size: 1.3rem; font-weight: 700; color: var(--blue); margin-bottom: 1rem; }
+    .paq-precio small { font-size: 0.75rem; color: var(--muted); font-weight: 400; }
+    .btn-consultar {
+      display: block; text-align: center; background: var(--blue); color: #fff;
+      font-weight: 600; font-size: 0.88rem; padding: 0.7rem; border-radius: 8px;
+      transition: background 0.2s;
+    }
+    .btn-consultar:hover { background: #005f8e; }
+
+    /* MODAL CONSULTA */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.6); z-index: 200; align-items: center; justify-content: center;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: var(--white); border-radius: 16px; padding: 2rem;
+      width: 90%; max-width: 480px; position: relative;
+    }
+    .modal h3 { font-family: 'Raleway', sans-serif; font-size: 1.3rem; font-weight: 700; margin-bottom: 0.25rem; }
+    .modal p { color: var(--muted); font-size: 0.85rem; margin-bottom: 1.5rem; }
+    .modal-close {
+      position: absolute; top: 1rem; right: 1rem;
+      background: none; border: none; font-size: 1.2rem; cursor: pointer; color: var(--muted);
+    }
+    .form-m { display: flex; flex-direction: column; gap: 0.85rem; }
+    .form-m input, .form-m select, .form-m textarea {
+      border: 1px solid var(--border); border-radius: 8px;
+      padding: 0.75rem 1rem; font-family: 'Inter', sans-serif; font-size: 0.88rem;
+      outline: none; transition: border-color 0.2s;
+    }
+    .form-m input:focus, .form-m select:focus { border-color: var(--blue); }
+    .form-m textarea { min-height: 80px; resize: vertical; }
+    .btn-send {
+      background: var(--blue); color: #fff; border: none;
+      font-family: 'Inter', sans-serif; font-size: 0.9rem; font-weight: 600;
+      padding: 0.85rem; border-radius: 8px; cursor: pointer;
+    }
+    #modal-ok { display: none; text-align: center; color: var(--blue); padding: 1rem; font-size: 0.9rem; background: #e8f4fe; border-radius: 8px; }
+
+    footer.ftr-a {
+      background: var(--dark); color: rgba(255,255,255,0.4);
+      text-align: center; padding: 2rem; font-size: 0.82rem; margin-top: 3rem;
+    }
+    footer.ftr-a a { color: #00B4D8; }
+  </style>
+</head>
+<body>
+
+  <div class="demo-banner">
+    ⚡ Demo — Plataforma para agencia de viajes · Selva.tic
+    <a href="../index.html">← Volver al sitio</a>
+  </div>
+
+  <nav>
+    <div class="nav-brand">Misiones<span>Travel</span></div>
+    <ul class="nav-links-a">
+      <li><a href="#">Destinos</a></li>
+      <li><a href="#">Paquetes</a></li>
+      <li><a href="#">Nosotros</a></li>
+    </ul>
+    <a href="#" class="nav-btn-a">Consultar →</a>
+  </nav>
+
+  <div class="hero-a">
+    <h1>Descubrí <span>Misiones</span> y el NEA</h1>
+    <p>Paquetes turísticos diseñados por expertos que conocen el destino por dentro.</p>
+  </div>
+
+  <!-- FILTROS -->
+  <div class="filtros">
+    <label>Destino</label>
+    <select id="f-destino">
+      <option value="">Todos</option>
+      <option>Misiones</option>
+      <option>Iguazú</option>
+      <option>Corrientes</option>
+    </select>
+    <label>Duración</label>
+    <select id="f-dur">
+      <option value="">Cualquiera</option>
+      <option>2-3 días</option>
+      <option>4-5 días</option>
+      <option>7+ días</option>
+    </select>
+    <label>Tipo</label>
+    <select id="f-tipo">
+      <option value="">Todos</option>
+      <option>Aventura</option>
+      <option>Cultural</option>
+      <option>Relax</option>
+      <option>Familiar</option>
+    </select>
+    <button class="btn-filtrar">Buscar</button>
+  </div>
+
+  <!-- PAQUETES -->
+  <div class="paquetes-section">
+    <h2 class="paq-titulo">Paquetes destacados</h2>
+    <div class="paq-grid" id="paq-grid">
+
+      <div class="paq-card">
+        <div class="paq-img">🌊<span class="paq-badge">⭐ Más vendido</span></div>
+        <div class="paq-body">
+          <div class="paq-destino">Misiones</div>
+          <h3>Cataratas del Iguazú + Selva</h3>
+          <p>3 noches en Puerto Iguazú con visita al Parque Nacional, paseo en lancha y excursión por la selva.</p>
+          <div class="paq-meta">
+            <span>🌙 3 noches</span><span>👥 Desde 2 pax</span><span>🌿 Aventura</span>
+          </div>
+          <div class="paq-precio">$185.000 <small>/ persona</small></div>
+          <a href="#" class="btn-consultar" onclick="abrirModal('Cataratas del Iguazú + Selva');return false;">Consultar →</a>
+        </div>
+      </div>
+
+      <div class="paq-card">
+        <div class="paq-img">🏛️</div>
+        <div class="paq-body">
+          <div class="paq-destino">Misiones</div>
+          <h3>Ruta Jesuítica Misionera</h3>
+          <p>4 noches recorriendo las Ruinas de San Ignacio, Loreto, Santa Ana y otros sitios históricos declarados Patrimonio de la Humanidad.</p>
+          <div class="paq-meta">
+            <span>🌙 4 noches</span><span>👥 Desde 2 pax</span><span>🎭 Cultural</span>
+          </div>
+          <div class="paq-precio">$210.000 <small>/ persona</small></div>
+          <a href="#" class="btn-consultar" onclick="abrirModal('Ruta Jesuítica Misionera');return false;">Consultar →</a>
+        </div>
+      </div>
+
+      <div class="paq-card">
+        <div class="paq-img">🦜</div>
+        <div class="paq-body">
+          <div class="paq-destino">Misiones</div>
+          <h3>Selva & Saltos del Tabay</h3>
+          <p>2 noches en Jardín América con excursión a los Saltos del Tabay, avistaje de aves y senderismo en reserva natural.</p>
+          <div class="paq-meta">
+            <span>🌙 2 noches</span><span>👥 Desde 1 pax</span><span>🌿 Naturaleza</span>
+          </div>
+          <div class="paq-precio">$98.000 <small>/ persona</small></div>
+          <a href="#" class="btn-consultar" onclick="abrirModal('Selva & Saltos del Tabay');return false;">Consultar →</a>
+        </div>
+      </div>
+
+      <div class="paq-card">
+        <div class="paq-img">💧</div>
+        <div class="paq-body">
+          <div class="paq-destino">Misiones</div>
+          <h3>Saltos del Moconá</h3>
+          <p>3 noches en El Soberbio con visita a los impresionantes Saltos del Moconá, únicos en el mundo por sus cascadas longitudinales.</p>
+          <div class="paq-meta">
+            <span>🌙 3 noches</span><span>👥 Desde 2 pax</span><span>🌊 Aventura</span>
+          </div>
+          <div class="paq-precio">$165.000 <small>/ persona</small></div>
+          <a href="#" class="btn-consultar" onclick="abrirModal('Saltos del Moconá');return false;">Consultar →</a>
+        </div>
+      </div>
+
+      <div class="paq-card">
+        <div class="paq-img">🐊</div>
+        <div class="paq-body">
+          <div class="paq-destino">Corrientes</div>
+          <h3>Iberá — Esteros & Fauna</h3>
+          <p>4 noches en los Esteros del Iberá, avistaje de yacarés, carpinchos, ciervos de los pantanos y aves acuáticas.</p>
+          <div class="paq-meta">
+            <span>🌙 4 noches</span><span>👥 Desde 2 pax</span><span>🦎 Naturaleza</span>
+          </div>
+          <div class="paq-precio">$245.000 <small>/ persona</small></div>
+          <a href="#" class="btn-consultar" onclick="abrirModal('Iberá — Esteros & Fauna');return false;">Consultar →</a>
+        </div>
+      </div>
+
+      <div class="paq-card">
+        <div class="paq-img">👨‍👩‍👧‍👦</div>
+        <div class="paq-body">
+          <div class="paq-destino">Misiones</div>
+          <h3>Misiones en Familia</h3>
+          <p>7 noches recorriendo los principales atractivos de Misiones en familia: Iguazú, San Ignacio, Jardín América y más.</p>
+          <div class="paq-meta">
+            <span>🌙 7 noches</span><span>👥 Familiar</span><span>⭐ Todo incluido</span>
+          </div>
+          <div class="paq-precio">$380.000 <small>/ persona</small></div>
+          <a href="#" class="btn-consultar" onclick="abrirModal('Misiones en Familia');return false;">Consultar →</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MODAL -->
+  <div class="modal-overlay" id="modal-overlay" onclick="cerrarModal(event)">
+    <div class="modal">
+      <button class="modal-close" onclick="document.getElementById('modal-overlay').classList.remove('open')">✕</button>
+      <h3>Consultar paquete</h3>
+      <p id="modal-paq-nombre">Completá el formulario y te respondemos en menos de 24hs.</p>
+      <form class="form-m" onsubmit="enviarConsulta(event)">
+        <input type="text" placeholder="Nombre completo" required>
+        <input type="tel" placeholder="WhatsApp (+54 9 ...)">
+        <input type="email" placeholder="Email">
+        <select>
+          <option>¿Cuándo querés viajar?</option>
+          <option>Abril 2026</option><option>Mayo 2026</option>
+          <option>Junio 2026</option><option>Julio 2026</option>
+          <option>Agosto 2026</option><option>Otro</option>
+        </select>
+        <select>
+          <option>¿Cuántas personas?</option>
+          <option>1 persona</option><option>2 personas</option>
+          <option>3-4 personas</option><option>5+ personas</option>
+        </select>
+        <textarea placeholder="¿Alguna consulta especial?"></textarea>
+        <button type="submit" class="btn-send">Enviar consulta →</button>
+        <div id="modal-ok">✅ ¡Consulta recibida! Te respondemos en menos de 24hs por WhatsApp o email.</div>
+      </form>
+    </div>
+  </div>
+
+  <footer class="ftr-a">
+    Demo creado por <a href="../index.html">Selva.tic</a> · ¿Querés esta plataforma para tu agencia? <a href="../index.html#contacto">Hablemos →</a>
+  </footer>
+
+  <script>
+    function abrirModal(nombre) {
+      document.getElementById('modal-paq-nombre').textContent = '📦 ' + nombre;
+      document.getElementById('modal-overlay').classList.add('open');
+      document.getElementById('modal-ok').style.display = 'none';
+    }
+    function cerrarModal(e) {
+      if(e.target === document.getElementById('modal-overlay'))
+        document.getElementById('modal-overlay').classList.remove('open');
+    }
+    function enviarConsulta(e) {
+      e.preventDefault();
+      document.getElementById('modal-ok').style.display = 'block';
+      e.target.reset();
+    }
+  </script>
+</body>
+</html>

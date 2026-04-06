@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Selva.tic — Tecnología aplicada al turismo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Raleway:wght@200;300;400;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --black:    #0a0a0a;
+      --dark:     #111827;
+      --dark2:    #1a1a2e;
+      --blue:     #00B4D8;
+      --blue-dk:  #0077B6;
+      --blue-lt:  #90E0EF;
+      --white:    #ffffff;
+      --gray:     #f4f6f8;
+      --muted:    #6b7a8d;
+      --border:   #e2e8f0;
+      --radius:   14px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; color: var(--black); background: var(--white); line-height: 1.7; }
+    a { text-decoration: none; color: inherit; }
+
+    /* NAV */
+    #navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(10,10,10,0.96); backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .nav-inner {
+      max-width: 1200px; margin: 0 auto; padding: 0 2rem;
+      height: 70px; display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo { display: flex; align-items: center; gap: 0.6rem; }
+    .nav-logo img { height: 44px; }
+    .nav-logo-name {
+      font-family: 'Raleway', sans-serif; font-weight: 800;
+      font-size: 1.35rem; letter-spacing: 3px; text-transform: uppercase;
+      color: #ffffff; line-height: 1;
+    }
+    .nav-logo-name span { color: var(--blue); }
+    .nav-links { list-style: none; display: flex; gap: 2rem; }
+    .nav-links a { color: rgba(255,255,255,0.75); font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--blue); }
+    .nav-cta {
+      background: var(--blue); color: var(--white); font-weight: 600;
+      font-size: 0.88rem; padding: 0.6rem 1.4rem; border-radius: 8px;
+      transition: background 0.2s;
+    }
+    .nav-cta:hover { background: var(--blue-dk); }
+
+    /* HERO */
+    #hero {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0a0a0a 0%, #0d1b2a 50%, #0077B6 100%);
+      display: flex; align-items: center; position: relative; overflow: hidden;
+    }
+    .hero-glow {
+      position: absolute; width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(0,180,216,0.15) 0%, transparent 70%);
+      top: 50%; left: 50%; transform: translate(-50%,-50%);
+      pointer-events: none;
+    }
+    .hero-inner {
+      max-width: 1200px; margin: 0 auto; padding: 8rem 2rem 4rem;
+      position: relative; z-index: 1;
+      display: flex; align-items: center; gap: 4rem;
+    }
+    .hero-text { flex: 1; }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(0,180,216,0.15); border: 1px solid rgba(0,180,216,0.35);
+      color: var(--blue-lt); font-size: 0.8rem; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 0.4rem 1rem; border-radius: 50px; margin-bottom: 1.5rem;
+    }
+    .hero-text h1 {
+      font-family: 'Raleway', sans-serif; font-size: clamp(2.8rem, 5vw, 4.5rem);
+      color: var(--white); line-height: 1.1; margin-bottom: 1.5rem; font-weight: 800;
+    }
+    .hero-text h1 span { color: var(--blue); }
+    .hero-sub {
+      color: rgba(255,255,255,0.7); font-size: 1.1rem;
+      max-width: 520px; margin-bottom: 2.5rem; line-height: 1.8;
+    }
+    .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--blue); color: var(--white); font-weight: 600;
+      font-size: 0.95rem; padding: 0.9rem 2rem; border-radius: 10px;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn-primary:hover { background: var(--blue-dk); transform: translateY(-2px); }
+    .btn-ghost {
+      border: 1px solid rgba(255,255,255,0.25); color: var(--white);
+      font-size: 0.95rem; font-weight: 500; padding: 0.9rem 2rem; border-radius: 10px;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .btn-ghost:hover { border-color: var(--blue); background: rgba(0,180,216,0.08); }
+    .hero-logo { flex-shrink: 0; }
+    .hero-logo img { width: 280px; filter: drop-shadow(0 0 40px rgba(0,180,216,0.4)); }
+
+    /* SHARED */
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+    section { padding: 6rem 0; }
+    .section-tag {
+      display: inline-block; color: var(--blue); font-size: 0.78rem;
+      font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 0.75rem;
+    }
+    .section-title {
+      font-family: 'Raleway', sans-serif; font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      font-weight: 800; color: var(--dark); line-height: 1.2; margin-bottom: 1rem;
+    }
+    .section-title.light { color: var(--white); }
+    .section-sub { color: var(--muted); font-size: 1.05rem; max-width: 600px; margin: 0 auto; }
+    .section-header { text-align: center; margin-bottom: 4rem; }
+
+    /* NOSOTROS */
+    #nosotros { background: var(--gray); }
+    .nosotros-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+    .nosotros-text p { color: #444; margin-bottom: 1.1rem; font-size: 1.02rem; }
+    .nosotros-text strong { color: var(--dark); }
+    .nosotros-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+    .stat-box {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.5rem; text-align: center;
+      border-top: 3px solid var(--blue);
+    }
+    .stat-num {
+      font-family: 'Raleway', sans-serif; font-size: 2.2rem;
+      font-weight: 800; color: var(--blue); line-height: 1;
+    }
+    .stat-lbl { font-size: 0.82rem; color: var(--muted); margin-top: 0.4rem; }
+
+    /* SERVICIOS */
+    #servicios { background: var(--white); }
+    .servicios-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2rem; }
+    .servicio-card {
+      border: 1px solid var(--border); border-radius: var(--radius);
+      overflow: hidden; transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .servicio-card:hover { transform: translateY(-6px); box-shadow: 0 16px 48px rgba(0,119,182,0.12); }
+    .servicio-header {
+      background: linear-gradient(135deg, var(--dark2), #0d3b6e);
+      padding: 2rem 1.75rem 1.5rem;
+    }
+    .servicio-icon { font-size: 2.4rem; margin-bottom: 1rem; }
+    .servicio-header h3 {
+      font-family: 'Raleway', sans-serif; font-size: 1.25rem;
+      font-weight: 700; color: var(--white); margin-bottom: 0.4rem;
+    }
+    .servicio-header p { font-size: 0.82rem; color: rgba(255,255,255,0.65); }
+    .servicio-body { padding: 1.5rem 1.75rem; }
+    .servicio-list { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+    .servicio-list li {
+      font-size: 0.9rem; color: #444;
+      display: flex; align-items: flex-start; gap: 0.6rem;
+    }
+    .servicio-list li::before {
+      content: '▸'; color: var(--blue); font-size: 0.8rem; margin-top: 2px; flex-shrink: 0;
+    }
+    .servicio-demo-btn {
+      display: block; margin-top: 1.5rem; text-align: center;
+      background: rgba(0,180,216,0.08); border: 1px solid rgba(0,180,216,0.3);
+      color: var(--blue); font-size: 0.88rem; font-weight: 600;
+      padding: 0.7rem; border-radius: 8px; transition: background 0.2s;
+    }
+    .servicio-demo-btn:hover { background: rgba(0,180,216,0.15); }
+
+    /* DEMOS */
+    #demos { background: var(--dark2); }
+    .demos-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2rem; }
+    .demo-card {
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--radius); overflow: hidden;
+      transition: border-color 0.25s, transform 0.25s;
+    }
+    .demo-card:hover { border-color: var(--blue); transform: translateY(-4px); }
+    .demo-preview {
+      height: 200px; display: flex; align-items: center; justify-content: center;
+      font-size: 4rem; background: linear-gradient(135deg, #0d1b2a, #0d3b6e);
+    }
+    .demo-info { padding: 1.5rem; }
+    .demo-tag {
+      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--blue); margin-bottom: 0.5rem;
+    }
+    .demo-info h3 {
+      font-family: 'Raleway', sans-serif; font-size: 1.1rem;
+      font-weight: 700; color: var(--white); margin-bottom: 0.5rem;
+    }
+    .demo-info p { font-size: 0.85rem; color: rgba(255,255,255,0.55); margin-bottom: 1.25rem; }
+    .demo-btn {
+      display: inline-block; background: var(--blue); color: var(--white);
+      font-size: 0.85rem; font-weight: 600; padding: 0.6rem 1.25rem;
+      border-radius: 7px; transition: background 0.2s;
+    }
+    .demo-btn:hover { background: var(--blue-dk); }
+
+    /* PROYECTOS REALES */
+    #proyectos { background: var(--white); }
+    .proyectos-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; }
+    .proyecto-card {
+      border: 1px solid var(--border); border-radius: var(--radius); padding: 1.75rem;
+      transition: transform 0.25s, box-shadow 0.25s; border-top: 4px solid var(--blue);
+    }
+    .proyecto-card:hover { transform: translateY(-4px); box-shadow: 0 12px 36px rgba(0,0,0,0.08); }
+    .proyecto-badge {
+      display: inline-block; background: rgba(0,180,216,0.1); color: var(--blue-dk);
+      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase; padding: 0.3rem 0.75rem; border-radius: 50px; margin-bottom: 1rem;
+    }
+    .proyecto-card h3 {
+      font-family: 'Raleway', sans-serif; font-size: 1.2rem;
+      font-weight: 700; color: var(--dark); margin-bottom: 0.6rem;
+    }
+    .proyecto-card p { color: var(--muted); font-size: 0.9rem; margin-bottom: 1.25rem; line-height: 1.6; }
+    .proyecto-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.25rem; }
+    .proyecto-tags span {
+      background: var(--gray); color: #555; font-size: 0.75rem;
+      padding: 0.25rem 0.65rem; border-radius: 50px;
+    }
+    .proyecto-link {
+      color: var(--blue); font-size: 0.88rem; font-weight: 600;
+      display: flex; align-items: center; gap: 0.3rem;
+    }
+    .proyecto-link:hover { color: var(--blue-dk); }
+
+    /* CONTACTO */
+    #contacto { background: linear-gradient(135deg, #0a0a0a, #0d1b2a); }
+    .contacto-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+    .contacto-info h2 {
+      font-family: 'Raleway', sans-serif; font-size: 2.2rem;
+      font-weight: 800; color: var(--white); margin-bottom: 1rem;
+    }
+    .contacto-info p { color: rgba(255,255,255,0.6); margin-bottom: 2rem; font-size: 1rem; }
+    .contacto-canales { display: flex; flex-direction: column; gap: 1rem; }
+    .canal {
+      display: flex; align-items: center; gap: 1rem;
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+      padding: 1rem 1.25rem; border-radius: 10px; color: var(--white);
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .canal:hover { border-color: var(--blue); background: rgba(0,180,216,0.08); }
+    .canal-icon { font-size: 1.4rem; }
+    .canal-text { font-size: 0.9rem; }
+    .canal-text strong { display: block; font-size: 0.8rem; color: var(--blue-lt); margin-bottom: 0.1rem; }
+
+    .contacto-form { display: flex; flex-direction: column; gap: 1rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+    .form-group label { font-size: 0.82rem; color: rgba(255,255,255,0.6); font-weight: 500; }
+    .form-group input, .form-group select, .form-group textarea {
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15);
+      color: var(--white); font-family: 'Inter', sans-serif; font-size: 0.92rem;
+      padding: 0.8rem 1rem; border-radius: 8px; outline: none;
+      transition: border-color 0.2s;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+      border-color: var(--blue);
+    }
+    .form-group select option { background: #1a1a2e; }
+    .form-group textarea { resize: vertical; min-height: 100px; }
+    .form-submit {
+      background: var(--blue); color: var(--white); border: none;
+      font-family: 'Inter', sans-serif; font-size: 0.95rem; font-weight: 600;
+      padding: 0.95rem; border-radius: 10px; cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .form-submit:hover { background: var(--blue-dk); transform: translateY(-2px); }
+    #form-ok { display: none; text-align: center; color: var(--blue-lt); padding: 1rem; font-size: 0.95rem; }
+
+    /* FOOTER */
+    footer {
+      background: #050505; text-align: center;
+      padding: 2rem; color: rgba(255,255,255,0.3); font-size: 0.83rem;
+    }
+    .footer-logo { display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-bottom: 0.75rem; }
+    .footer-logo img { height: 36px; opacity: 0.85; }
+    .footer-logo-name {
+      font-family: 'Raleway', sans-serif; font-weight: 800;
+      font-size: 1.2rem; letter-spacing: 3px; text-transform: uppercase;
+      color: #ffffff; line-height: 1;
+    }
+    .footer-logo-name span { color: var(--blue); }
+
+    /* WHATSAPP FLOTANTE */
+    .wa-float {
+      position: fixed; bottom: 2rem; right: 2rem; z-index: 999;
+      width: 58px; height: 58px; border-radius: 50%;
+      background: #25D366;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 20px rgba(37,211,102,0.45);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .wa-float:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 28px rgba(37,211,102,0.6);
+    }
+    .wa-float svg { width: 30px; height: 30px; fill: #fff; }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .hero-inner { flex-direction: column; text-align: center; }
+      .hero-logo img { width: 200px; }
+      .hero-btns { justify-content: center; }
+      .nosotros-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .servicios-grid { grid-template-columns: 1fr; }
+      .demos-grid { grid-template-columns: 1fr; }
+      .proyectos-grid { grid-template-columns: 1fr; }
+      .contacto-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .nav-links { display: none; }
+    }
+
+    /* FADE IN */
+    .fade { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .fade.visible { opacity: 1; transform: none; }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a class="nav-logo" href="#">
+        <img src="logo-icon.png" alt="Selva.tic">
+        <span class="nav-logo-name">SELVA<span>.</span>TIC</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#nosotros">Nosotros</a></li>
+        <li><a href="#servicios">Servicios</a></li>
+        <li><a href="#demos">Demos</a></li>
+        <li><a href="#proyectos">Proyectos</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+      <a href="#contacto" class="nav-cta">Hablemos</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-glow"></div>
+    <div class="hero-inner">
+      <div class="hero-text">
+        <span class="hero-badge">Tecnología aplicada al turismo</span>
+        <h1>Digitalizamos el turismo que <span>conocemos por dentro</span></h1>
+        <p class="hero-sub">Desarrollamos sistemas de gestión, sitios web y soluciones digitales exclusivamente para el sector turístico. No somos developers que aprendieron turismo — somos profesionales del sector que aprendieron a programar.</p>
+        <div class="hero-btns">
+          <a href="#servicios" class="btn-primary">Ver servicios</a>
+          <a href="#demos" class="btn-ghost">Ver demos en vivo</a>
+        </div>
+      </div>
+      <div class="hero-logo">
+        <img src="logo-icon.png" alt="Selva.tic">
+      </div>
+    </div>
+  </section>
+
+  <!-- NOSOTROS -->
+  <section id="nosotros">
+    <div class="container">
+      <div class="nosotros-grid">
+        <div class="nosotros-text fade">
+          <span class="section-tag">Quiénes somos</span>
+          <h2 class="section-title">El diferencial que hace la diferencia</h2>
+          <p>Selva.tic nace de una necesidad real: las herramientas digitales que el sector turístico necesitaba no existían, o existían mal. Entonces las construimos.</p>
+          <p>Somos profesionales con <strong>más de 20 años de experiencia en turismo</strong> — gestión de destinos, agencias, alojamientos — que combinamos ese conocimiento sectorial con desarrollo web full stack.</p>
+          <p>Eso nos permite diseñar soluciones que realmente resuelven los problemas del día a día de un municipio, una agencia o un hotel. No soluciones genéricas adaptadas al turismo, sino <strong>soluciones pensadas desde adentro del sector</strong>.</p>
+          <p>Somos de Misiones, Argentina. Entendemos el territorio, el contexto y los recursos de cada cliente.</p>
+        </div>
+        <div class="nosotros-stats fade">
+          <div class="stat-box">
+            <div class="stat-num">20+</div>
+            <div class="stat-lbl">Años en el sector turístico</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num">4</div>
+            <div class="stat-lbl">Proyectos en producción</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num">1</div>
+            <div class="stat-lbl">Sistema municipal en uso real</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num">3</div>
+            <div class="stat-lbl">Áreas de especialización</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICIOS -->
+  <section id="servicios">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Lo que hacemos</span>
+        <h2 class="section-title">Servicios</h2>
+        <p class="section-sub">Soluciones digitales a medida para cada actor del sector turístico.</p>
+      </div>
+      <div class="servicios-grid">
+
+        <div class="servicio-card fade">
+          <div class="servicio-header">
+            <div class="servicio-icon">🏛️</div>
+            <h3>Destinos & Municipios</h3>
+            <p>Gestión turística inteligente para organismos públicos</p>
+          </div>
+          <div class="servicio-body">
+            <ul class="servicio-list">
+              <li>Sistemas de registro y gestión de visitantes</li>
+              <li>Estadísticas y reportes automáticos</li>
+              <li>Carteleras digitales de eventos</li>
+              <li>Integración con WhatsApp para comunicación</li>
+              <li>Dashboards con indicadores de ocupación</li>
+              <li>Mapas de procedencias de turistas</li>
+              <li>Reportes mensuales para autoridades</li>
+            </ul>
+            <a href="demos/destino.html" class="servicio-demo-btn" target="_blank">Ver demo →</a>
+          </div>
+        </div>
+
+        <div class="servicio-card fade">
+          <div class="servicio-header">
+            <div class="servicio-icon">🏨</div>
+            <h3>Alojamientos</h3>
+            <p>Presencia digital y gestión para hoteles, hosterías y cabañas</p>
+          </div>
+          <div class="servicio-body">
+            <ul class="servicio-list">
+              <li>Sitio web profesional con galería y tarifas</li>
+              <li>Sistema de reservas online</li>
+              <li>Panel de gestión de huéspedes</li>
+              <li>Calendario de disponibilidad</li>
+              <li>Envío automático de bienvenida por WhatsApp</li>
+              <li>Integración con Google Maps y reseñas</li>
+              <li>Versión mobile optimizada</li>
+            </ul>
+            <a href="demos/alojamiento.html" class="servicio-demo-btn" target="_blank">Ver demo →</a>
+          </div>
+        </div>
+
+        <div class="servicio-card fade">
+          <div class="servicio-header">
+            <div class="servicio-icon">✈️</div>
+            <h3>Agencias de Viajes</h3>
+            <p>Plataformas digitales para vender y gestionar paquetes</p>
+          </div>
+          <div class="servicio-body">
+            <ul class="servicio-list">
+              <li>Sitio web con catálogo de paquetes</li>
+              <li>Sistema de consultas y reservas online</li>
+              <li>Panel de gestión de clientes</li>
+              <li>Integración con WhatsApp para ventas</li>
+              <li>Galería de destinos con filtros</li>
+              <li>Blog de viajes y contenido SEO</li>
+              <li>Formularios de cotización automáticos</li>
+            </ul>
+            <a href="demos/agencia.html" class="servicio-demo-btn" target="_blank">Ver demo →</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- DEMOS -->
+  <section id="demos">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">En vivo</span>
+        <h2 class="section-title light">Demos interactivos</h2>
+        <p class="section-sub" style="color:rgba(255,255,255,0.55)">Ejemplos funcionales de lo que podemos construir para tu organización o negocio.</p>
+      </div>
+      <div class="demos-grid">
+
+        <div class="demo-card fade">
+          <div class="demo-preview">🏛️</div>
+          <div class="demo-info">
+            <div class="demo-tag">Municipios & Destinos</div>
+            <h3>Panel de Gestión Turística</h3>
+            <p>Sistema de registro de visitantes, estadísticas en tiempo real y reportes para organismos turísticos.</p>
+            <a href="demos/destino.html" class="demo-btn" target="_blank">Ver demo en vivo →</a>
+          </div>
+        </div>
+
+        <div class="demo-card fade">
+          <div class="demo-preview">🏨</div>
+          <div class="demo-info">
+            <div class="demo-tag">Alojamientos</div>
+            <h3>Sitio Web con Reservas</h3>
+            <p>Sitio profesional para hostería con galería, tarifas, sistema de reservas online y panel de gestión.</p>
+            <a href="demos/alojamiento.html" class="demo-btn" target="_blank">Ver demo en vivo →</a>
+          </div>
+        </div>
+
+        <div class="demo-card fade">
+          <div class="demo-preview">✈️</div>
+          <div class="demo-info">
+            <div class="demo-tag">Agencias de Viajes</div>
+            <h3>Plataforma de Paquetes</h3>
+            <p>Sitio web para agencia con catálogo de destinos, filtros, formulario de consulta y sistema de cotización.</p>
+            <a href="demos/agencia.html" class="demo-btn" target="_blank">Ver demo en vivo →</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- PROYECTOS REALES -->
+  <section id="proyectos">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Casos reales</span>
+        <h2 class="section-title">Proyectos en producción</h2>
+        <p class="section-sub">Soluciones reales, funcionando, con clientes reales.</p>
+      </div>
+      <div class="proyectos-grid">
+
+        <div class="proyecto-card fade">
+          <span class="proyecto-badge">En producción · Municipal</span>
+          <h3>TuriGest JA</h3>
+          <p>Sistema de gestión turística municipal para Jardín América. Registro de visitantes, eventos, estadísticas, WhatsApp e informes automáticos.</p>
+          <div class="proyecto-tags">
+            <span>JavaScript</span><span>Firebase</span><span>HTML/CSS</span>
+          </div>
+          <a href="https://turigest-ja.web.app" target="_blank" class="proyecto-link">Ver en vivo ↗</a>
+        </div>
+
+        <div class="proyecto-card fade">
+          <span class="proyecto-badge">Agencia de viajes</span>
+          <h3>Olala Viajes</h3>
+          <p>Sitio web para agencia de viajes con catálogo de paquetes turísticos y sistema de reservas.</p>
+          <div class="proyecto-tags">
+            <span>Python</span><span>Django</span><span>SQLite</span>
+          </div>
+          <a href="https://github.com/enzomantay-del/olala-viajes" target="_blank" class="proyecto-link">Ver proyecto ↗</a>
+        </div>
+
+        <div class="proyecto-card fade">
+          <span class="proyecto-badge">Destino turístico</span>
+          <h3>Jardín América Turismo</h3>
+          <p>Sitio turístico del municipio con información de atractivos, eventos en tiempo real y recursos para visitantes.</p>
+          <div class="proyecto-tags">
+            <span>HTML/CSS</span><span>JavaScript</span><span>Firebase</span>
+          </div>
+          <a href="https://github.com/enzomantay-del/jardin-america-turismo" target="_blank" class="proyecto-link">Ver proyecto ↗</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section id="contacto">
+    <div class="container">
+      <div class="contacto-grid">
+        <div class="contacto-info fade">
+          <span class="section-tag">Contacto</span>
+          <h2>¿Hablamos?</h2>
+          <p>Contanos qué necesitás y te armamos una propuesta a medida. Trabajamos con municipios, alojamientos y agencias de todo el país.</p>
+          <div class="contacto-canales">
+            <a href="https://wa.me/5437434834292" target="_blank" class="canal">
+              <span class="canal-icon">📱</span>
+              <div class="canal-text">
+                <strong>WhatsApp</strong>
+                Escribinos directo
+              </div>
+            </a>
+            <a href="mailto:enzomantay@gmail.com" class="canal">
+              <span class="canal-icon">📧</span>
+              <div class="canal-text">
+                <strong>Email</strong>
+                enzomantay@gmail.com
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <div class="fade">
+          <form class="contacto-form" onsubmit="enviarForm(event)">
+            <div class="form-group">
+              <label>Nombre y organización</label>
+              <input type="text" placeholder="Ej: Juan Pérez — Municipio de..." required>
+            </div>
+            <div class="form-group">
+              <label>Email</label>
+              <input type="email" placeholder="tu@email.com" required>
+            </div>
+            <div class="form-group">
+              <label>Soy...</label>
+              <select>
+                <option value="">Seleccioná una opción</option>
+                <option>Director/a de Turismo municipal</option>
+                <option>Hotel / Hostería / Cabaña</option>
+                <option>Agencia de viajes</option>
+                <option>Otro organismo turístico</option>
+                <option>Otro</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>¿Qué necesitás?</label>
+              <textarea placeholder="Contanos brevemente tu proyecto o necesidad..."></textarea>
+            </div>
+            <button type="submit" class="form-submit">Enviar consulta →</button>
+            <div id="form-ok">✅ ¡Mensaje recibido! Te respondemos en menos de 24 horas.</div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHATSAPP FLOTANTE -->
+  <a class="wa-float" href="https://wa.me/5437434834292" target="_blank" aria-label="Escribinos por WhatsApp">
+    <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+      <path d="M16 2C8.268 2 2 8.268 2 16c0 2.493.651 4.835 1.787 6.865L2 30l7.353-1.768A13.94 13.94 0 0016 30c7.732 0 14-6.268 14-14S23.732 2 16 2zm0 25.5a11.44 11.44 0 01-5.826-1.594l-.418-.248-4.363 1.05 1.074-4.25-.272-.436A11.463 11.463 0 014.5 16C4.5 9.649 9.649 4.5 16 4.5S27.5 9.649 27.5 16 22.351 27.5 16 27.5zm6.29-8.617c-.344-.172-2.036-1.004-2.352-1.118-.316-.115-.546-.172-.775.172-.229.344-.888 1.118-1.089 1.347-.2.23-.4.258-.745.086-.344-.172-1.453-.536-2.768-1.708-1.023-.913-1.713-2.04-1.913-2.384-.2-.344-.021-.53.15-.701.155-.154.344-.402.516-.603.172-.2.229-.344.344-.573.115-.229.057-.43-.029-.602-.086-.172-.775-1.869-1.062-2.56-.28-.672-.564-.58-.775-.591l-.66-.011c-.229 0-.602.086-.917.43-.315.344-1.204 1.176-1.204 2.867s1.233 3.327 1.405 3.556c.172.23 2.427 3.706 5.88 5.196.823.355 1.465.567 1.965.726.826.263 1.578.226 2.172.137.663-.099 2.036-.832 2.323-1.635.287-.803.287-1.49.2-1.634-.086-.143-.315-.23-.66-.402z"/>
+    </svg>
+  </a>
+
+  <footer>
+    <div class="footer-logo">
+      <img src="logo-icon.png" alt="Selva.tic">
+      <span class="footer-logo-name">SELVA<span>.</span>TIC</span>
+    </div>
+    <p>© 2026 Selva.tic · Jardín América, Misiones, Argentina · Tecnología aplicada al turismo</p>
+  </footer>
+
+  <script>
+    // Navbar scroll
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').style.boxShadow =
+        window.scrollY > 40 ? '0 2px 20px rgba(0,0,0,0.4)' : 'none';
+    });
+
+    // Fade in
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade').forEach(el => obs.observe(el));
+
+    // Form
+    function enviarForm(e) {
+      e.preventDefault();
+      document.getElementById('form-ok').style.display = 'block';
+      e.target.reset();
+    }
+  </script>
+
+</body>
+</html>

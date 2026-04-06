@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Propuesta — Sistema de Reservas para Cabañas | Selva.tic</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Raleway:wght@200;300;400;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --black:   #0a0a0a;
+      --dark:    #111827;
+      --dark2:   #1a1a2e;
+      --blue:    #00B4D8;
+      --blue-dk: #0077B6;
+      --blue-lt: #90E0EF;
+      --white:   #ffffff;
+      --gray:    #f4f6f8;
+      --muted:   #6b7a8d;
+      --border:  #e2e8f0;
+      --radius:  14px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; color: var(--black); background: var(--white); line-height: 1.7; }
+    a { text-decoration: none; color: inherit; }
+
+    /* HEADER */
+    .header {
+      background: linear-gradient(135deg, #0a0a0a 0%, #0d1b2a 60%, #004e8a 100%);
+      padding: 3rem 2rem 4rem;
+      position: relative; overflow: hidden;
+    }
+    .header-glow {
+      position: absolute; width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(0,180,216,0.18) 0%, transparent 70%);
+      top: 50%; right: 5%; transform: translateY(-50%);
+      pointer-events: none;
+    }
+    .header-inner {
+      max-width: 860px; margin: 0 auto; position: relative; z-index: 1;
+    }
+    .header-logo {
+      display: flex; align-items: center; gap: 0.7rem; margin-bottom: 3rem;
+    }
+    .header-logo img { height: 70px; }
+    .header-logo-name {
+      font-family: 'Raleway', sans-serif; font-weight: 800;
+      font-size: 1.2rem; letter-spacing: 3px; text-transform: uppercase;
+      color: #fff; line-height: 1;
+    }
+    .header-logo-name span { color: var(--blue); }
+    .header-badge {
+      display: inline-block;
+      background: rgba(0,180,216,0.15); border: 1px solid rgba(0,180,216,0.35);
+      color: var(--blue-lt); font-size: 0.75rem; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 0.35rem 1rem; border-radius: 50px; margin-bottom: 1.25rem;
+    }
+    .header h1 {
+      font-family: 'Raleway', sans-serif;
+      font-size: clamp(2rem, 4.5vw, 3.2rem);
+      font-weight: 800; color: var(--white); line-height: 1.15; margin-bottom: 1.25rem;
+    }
+    .header h1 span { color: var(--blue); }
+    .header-sub {
+      color: rgba(255,255,255,0.7); font-size: 1.05rem;
+      max-width: 580px; line-height: 1.8; margin-bottom: 2.5rem;
+    }
+    .header-meta {
+      display: flex; gap: 2rem; flex-wrap: wrap;
+    }
+    .meta-item {
+      display: flex; flex-direction: column; gap: 0.15rem;
+    }
+    .meta-label { font-size: 0.72rem; color: rgba(255,255,255,0.45); text-transform: uppercase; letter-spacing: 0.1em; }
+    .meta-value { font-size: 0.9rem; color: rgba(255,255,255,0.85); font-weight: 500; }
+
+    /* CONTENIDO */
+    .container { max-width: 860px; margin: 0 auto; padding: 0 2rem; }
+    section { padding: 4rem 0; }
+
+    .section-tag {
+      display: inline-block; color: var(--blue); font-size: 0.75rem;
+      font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 0.6rem;
+    }
+    .section-title {
+      font-family: 'Raleway', sans-serif; font-size: clamp(1.5rem, 3vw, 2.1rem);
+      font-weight: 800; color: var(--dark); line-height: 1.2; margin-bottom: 0.9rem;
+    }
+    .section-title.light { color: var(--white); }
+    .section-lead { color: #555; font-size: 1.02rem; max-width: 620px; margin-bottom: 2.5rem; line-height: 1.8; }
+    hr.divider { border: none; border-top: 1px solid var(--border); margin: 0; }
+
+    /* PROBLEMA */
+    #problema { background: var(--gray); }
+    .problema-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+    .problema-item {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.5rem;
+      display: flex; gap: 1rem; align-items: flex-start;
+    }
+    .problema-icon { font-size: 1.6rem; flex-shrink: 0; margin-top: 2px; }
+    .problema-item h4 { font-size: 0.95rem; font-weight: 600; color: var(--dark); margin-bottom: 0.3rem; }
+    .problema-item p { font-size: 0.88rem; color: var(--muted); line-height: 1.6; }
+
+    /* SOLUCION */
+    #solucion { background: var(--white); }
+    .modulos-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .modulo-card.full { grid-column: 1 / -1; }
+    .modulo-card.full .modulo-header { background: linear-gradient(135deg, #003d5c, #005f8a, #007a9e); }
+    .modulo-card.full .modulo-body { display: grid; grid-template-columns: 1fr 1fr; gap: 0 2.5rem; }
+    .modulo-card {
+      border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden;
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .modulo-card:hover { transform: translateY(-4px); box-shadow: 0 14px 40px rgba(0,119,182,0.1); }
+    .modulo-header {
+      background: linear-gradient(135deg, var(--dark2), #0d3b6e);
+      padding: 1.5rem 1.75rem;
+    }
+    .modulo-num {
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em;
+      color: var(--blue-lt); text-transform: uppercase; margin-bottom: 0.6rem;
+    }
+    .modulo-header h3 {
+      font-family: 'Raleway', sans-serif; font-size: 1.15rem;
+      font-weight: 700; color: var(--white); margin-bottom: 0.3rem;
+    }
+    .modulo-header p { font-size: 0.82rem; color: rgba(255,255,255,0.6); }
+    .modulo-body { padding: 1.5rem 1.75rem; }
+    .modulo-list { list-style: none; display: flex; flex-direction: column; gap: 0.55rem; }
+    .modulo-list li {
+      font-size: 0.9rem; color: #444;
+      display: flex; align-items: flex-start; gap: 0.6rem;
+    }
+    .modulo-list li::before {
+      content: '▸'; color: var(--blue); font-size: 0.8rem; margin-top: 3px; flex-shrink: 0;
+    }
+
+    /* BENEFICIOS */
+    #beneficios { background: linear-gradient(135deg, #0a0a0a, #0d1b2a); }
+    .beneficios-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+    .beneficio-card {
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--radius); padding: 1.75rem;
+      transition: border-color 0.2s;
+    }
+    .beneficio-card:hover { border-color: var(--blue); }
+    .beneficio-icon { font-size: 2rem; margin-bottom: 1rem; }
+    .beneficio-card h4 {
+      font-family: 'Raleway', sans-serif; font-size: 1rem;
+      font-weight: 700; color: var(--white); margin-bottom: 0.5rem;
+    }
+    .beneficio-card p { font-size: 0.87rem; color: rgba(255,255,255,0.55); line-height: 1.65; }
+
+    /* INVERSION */
+    #inversion { background: var(--gray); }
+    .inversion-wrap {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: start;
+    }
+    .precio-card {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: var(--radius); overflow: hidden;
+    }
+    .precio-card.destacado { border-color: var(--blue); }
+    .precio-header {
+      padding: 1.75rem 2rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .precio-card.destacado .precio-header {
+      background: linear-gradient(135deg, var(--dark2), #0d3b6e);
+      border-bottom: none;
+    }
+    .precio-tag {
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--blue); margin-bottom: 0.5rem;
+    }
+    .precio-card.destacado .precio-tag { color: var(--blue-lt); }
+    .precio-nombre {
+      font-family: 'Raleway', sans-serif; font-size: 1.2rem;
+      font-weight: 800; color: var(--dark); margin-bottom: 0.5rem;
+    }
+    .precio-card.destacado .precio-nombre { color: var(--white); }
+    .precio-monto {
+      font-family: 'Raleway', sans-serif; font-size: 2.4rem;
+      font-weight: 800; color: var(--blue); line-height: 1;
+    }
+    .precio-monto sup { font-size: 1rem; vertical-align: top; margin-top: 6px; display: inline-block; }
+    .precio-desc { font-size: 0.82rem; color: var(--muted); margin-top: 0.3rem; }
+    .precio-card.destacado .precio-desc { color: rgba(255,255,255,0.55); }
+    .precio-body { padding: 1.5rem 2rem; }
+    .precio-items { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; }
+    .precio-items li {
+      font-size: 0.9rem; color: #444;
+      display: flex; align-items: flex-start; gap: 0.6rem;
+    }
+    .precio-items li::before { content: '✓'; color: var(--blue); font-weight: 700; flex-shrink: 0; }
+    .precio-nota {
+      background: rgba(0,180,216,0.06); border: 1px solid rgba(0,180,216,0.2);
+      border-radius: 10px; padding: 1.25rem 1.5rem; margin-top: 0.5rem;
+    }
+    .precio-nota p { font-size: 0.88rem; color: #444; line-height: 1.7; }
+    .precio-nota strong { color: var(--blue-dk); }
+    .tabla-wrap { overflow: hidden; border-radius: var(--radius); border: 1px solid var(--border); }
+    table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    thead { background: linear-gradient(135deg, var(--dark2), #0d3b6e); }
+    thead th { padding: 1rem 1.25rem; color: rgba(255,255,255,0.85); font-weight: 600; text-align: left; }
+    tbody tr { border-bottom: 1px solid var(--border); }
+    tbody tr:last-child { border-bottom: none; }
+    tbody td { padding: 0.9rem 1.25rem; color: #444; background: var(--white); vertical-align: middle; }
+    tbody td:first-child { font-weight: 500; color: var(--dark); }
+    tbody td:last-child { color: var(--blue-dk); font-weight: 600; text-align: right; }
+
+    /* PASOS */
+    #pasos { background: var(--white); }
+    .pasos-list { display: flex; flex-direction: column; gap: 0; position: relative; }
+    .pasos-list::before {
+      content: ''; position: absolute; left: 22px; top: 24px; bottom: 24px;
+      width: 2px; background: linear-gradient(to bottom, var(--blue), var(--blue-dk));
+    }
+    .paso {
+      display: flex; gap: 1.5rem; align-items: flex-start; padding: 1.25rem 0;
+    }
+    .paso-num {
+      width: 46px; height: 46px; flex-shrink: 0;
+      background: linear-gradient(135deg, var(--blue), var(--blue-dk));
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-family: 'Raleway', sans-serif; font-size: 1.1rem; font-weight: 800;
+      color: var(--white); position: relative; z-index: 1;
+    }
+    .paso-content { padding-top: 8px; }
+    .paso-content h4 { font-size: 1rem; font-weight: 700; color: var(--dark); margin-bottom: 0.25rem; }
+    .paso-content p { font-size: 0.88rem; color: var(--muted); line-height: 1.6; }
+
+    /* FOOTER */
+    .footer {
+      background: var(--black);
+      padding: 2.5rem 2rem;
+      text-align: center;
+    }
+    .footer-logo {
+      display: flex; align-items: center; justify-content: center; gap: 0.6rem; margin-bottom: 0.75rem;
+    }
+    .footer-logo img { height: 60px; }
+    .footer-logo-name {
+      font-family: 'Raleway', sans-serif; font-weight: 800;
+      font-size: 1rem; letter-spacing: 3px; text-transform: uppercase;
+      color: #fff;
+    }
+    .footer-logo-name span { color: var(--blue); }
+    .footer p { font-size: 0.82rem; color: rgba(255,255,255,0.35); }
+    .footer-contacto {
+      display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;
+      margin: 1.25rem 0 0.75rem;
+    }
+    .footer-contacto a {
+      display: flex; align-items: center; gap: 0.5rem;
+      color: rgba(255,255,255,0.65); font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+    .footer-contacto a:hover { color: var(--blue); }
+    .footer-contacto-icon { font-size: 1.1rem; }
+    .footer strong { color: rgba(255,255,255,0.6); }
+
+    @media (max-width: 640px) {
+      .problema-grid,
+      .modulos-grid,
+      .beneficios-grid,
+      .inversion-wrap { grid-template-columns: 1fr; }
+      .header h1 { font-size: 1.9rem; }
+    }
+    @media print {
+      .header-glow { display: none; }
+      section { padding: 2.5rem 0; }
+      .modulo-card:hover, .beneficio-card:hover, .precio-card:hover { transform: none; box-shadow: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-glow"></div>
+    <div class="header-inner">
+      <div class="header-logo">
+        <img src="logo-icon.png" alt="Selva.tic" />
+        <span class="header-logo-name">Selva<span>.tic</span></span>
+      </div>
+      <div class="header-badge">Propuesta Comercial</div>
+      <h1>Tu complejo de cabañas,<br><span>organizado y sin perder reservas</span></h1>
+      <p class="header-sub">
+        Te presentamos una solución diseñada especialmente para tu negocio: un sistema que
+        te permite recibir reservas las 24 horas, cobrar señas automáticamente y ver todo
+        desde el celular, sin complicaciones.
+      </p>
+      <div class="header-meta">
+        <div class="meta-item">
+          <span class="meta-label">Preparado por</span>
+          <span class="meta-value">Selva.tic — Tecnología para el turismo</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Fecha</span>
+          <span class="meta-value">Abril 2026</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Validez de la propuesta</span>
+          <span class="meta-value">30 días</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- PROBLEMA -->
+  <section id="problema">
+    <div class="container">
+      <span class="section-tag">El problema de hoy</span>
+      <h2 class="section-title">¿Te suena alguna de estas situaciones?</h2>
+      <p class="section-lead">
+        La mayoría de los complejos de cabañas de la zona siguen gestionando sus reservas de forma manual.
+        Eso genera pérdidas de tiempo, errores y clientes que se van a otro lado.
+      </p>
+      <div class="problema-grid">
+        <div class="problema-item">
+          <span class="problema-icon">📱</span>
+          <div>
+            <h4>Todo pasa por WhatsApp</h4>
+            <p>Consultás disponibilidad a mano, y si no respondés rápido, el cliente reserva en otro lado.</p>
+          </div>
+        </div>
+        <div class="problema-item">
+          <span class="problema-icon">📅</span>
+          <div>
+            <h4>Riesgo de reservas dobles</h4>
+            <p>Sin un calendario centralizado, es fácil confirmar la misma cabaña a dos personas.</p>
+          </div>
+        </div>
+        <div class="problema-item">
+          <span class="problema-icon">💸</span>
+          <div>
+            <h4>Cobrar la seña es un trámite</h4>
+            <p>Tenés que pedir el comprobante de transferencia, confirmarlo y acordarte de cada caso por separado.</p>
+          </div>
+        </div>
+        <div class="problema-item">
+          <span class="problema-icon">🏦</span>
+          <div>
+            <h4>Booking.com se queda con el 15%</h4>
+            <p>Cada reserva que entra por plataformas externas te cuesta una comisión alta sobre el total.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- SOLUCIÓN -->
+  <section id="solucion">
+    <div class="container">
+      <span class="section-tag">La solución</span>
+      <h2 class="section-title">Lo que vamos a construir para vos</h2>
+      <p class="section-lead">
+        Un sistema completo, hecho a medida para tu complejo, que trabaja para vos las 24 horas.
+        Sin comisiones a terceros, sin complicaciones técnicas y sin depender de nadie más.
+      </p>
+      <div class="modulos-grid">
+        <div class="modulo-card">
+          <div class="modulo-header">
+            <div class="modulo-num">Módulo 01</div>
+            <h3>Tu página web propia</h3>
+            <p>La vitrina digital de tu complejo</p>
+          </div>
+          <div class="modulo-body">
+            <ul class="modulo-list">
+              <li>Fotos, descripción y servicios de cada cabaña</li>
+              <li>Galería de imágenes con diseño atractivo</li>
+              <li>Mapa con la ubicación exacta</li>
+              <li>Optimizada para aparecer en Google</li>
+              <li>Se ve perfecta en celular y computadora</li>
+            </ul>
+          </div>
+        </div>
+        <div class="modulo-card">
+          <div class="modulo-header">
+            <div class="modulo-num">Módulo 02</div>
+            <h3>Reservas en línea</h3>
+            <p>El cliente reserva solo, sin que vos intervengas</p>
+          </div>
+          <div class="modulo-body">
+            <ul class="modulo-list">
+              <li>Calendario con disponibilidad en tiempo real</li>
+              <li>El cliente elige fechas, cabaña y cantidad de personas</li>
+              <li>El precio se calcula automático según temporada</li>
+              <li>Confirmación instantánea por WhatsApp</li>
+              <li>Sin riesgo de reservas dobles</li>
+            </ul>
+          </div>
+        </div>
+        <div class="modulo-card">
+          <div class="modulo-header">
+            <div class="modulo-num">Módulo 03</div>
+            <h3>Cobro de seña automático</h3>
+            <p>La reserva no queda confirmada hasta que paguen</p>
+          </div>
+          <div class="modulo-body">
+            <ul class="modulo-list">
+              <li>Pago por MercadoPago (tarjeta, transferencia o QR)</li>
+              <li>La seña (ej. 30%) se cobra al momento de reservar</li>
+              <li>El saldo pendiente queda registrado automáticamente</li>
+              <li>Recibís un aviso por cada pago recibido</li>
+              <li>Sin tener que perseguir comprobantes</li>
+            </ul>
+          </div>
+        </div>
+        <div class="modulo-card">
+          <div class="modulo-header">
+            <div class="modulo-num">Módulo 04</div>
+            <h3>Panel de administración</h3>
+            <p>Todo tu negocio en la palma de tu mano</p>
+          </div>
+          <div class="modulo-body">
+            <ul class="modulo-list">
+              <li>Ver todas las reservas desde el celular</li>
+              <li>Bloquear fechas cuando quieras (uso propio, mantenimiento)</li>
+              <li>Cargar reservas hechas por llamado o WhatsApp</li>
+              <li>Historial de huéspedes y pagos</li>
+              <li>Ajustar precios por temporada cuando necesites</li>
+            </ul>
+          </div>
+        </div>
+        <div class="modulo-card full">
+          <div class="modulo-header">
+            <div class="modulo-num">Módulo 05</div>
+            <h3>Asistente automático (Chatbot)</h3>
+            <p>Atiende a tus clientes las 24 horas, sin que vos tengas que responder nada</p>
+          </div>
+          <div class="modulo-body">
+            <ul class="modulo-list">
+              <li>Responde al instante las preguntas más frecuentes: precios, disponibilidad, cómo llegar, qué incluye cada cabaña</li>
+              <li>Funciona en WhatsApp y en el sitio web al mismo tiempo</li>
+              <li>Si la consulta es compleja, te avisa a vos para que intervengas</li>
+              <li>Disponible en el celular del turista a cualquier hora, incluso feriados y fines de semana</li>
+              <li>Se puede entrenar con la información específica de tu complejo</li>
+              <li>Puede enviar el link directo para reservar, sin que el cliente tenga que buscar nada</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- BENEFICIOS -->
+  <section id="beneficios">
+    <div class="container">
+      <div style="text-align:center; margin-bottom: 3rem;">
+        <span class="section-tag">¿Para qué te sirve?</span>
+        <h2 class="section-title light">Lo que cambia en tu negocio</h2>
+      </div>
+      <div class="beneficios-grid">
+        <div class="beneficio-card">
+          <div class="beneficio-icon">🕐</div>
+          <h4>Reservas las 24 hs</h4>
+          <p>Un turista puede reservar a las 11 de la noche sin que vos tengas que responder nada. El sistema trabaja mientras dormís.</p>
+        </div>
+        <div class="beneficio-card">
+          <div class="beneficio-icon">💰</div>
+          <h4>Sin comisiones</h4>
+          <p>Cada reserva que entra por tu propia web es tuya al 100%. No le das el 15% a Booking.com ni a ninguna otra plataforma.</p>
+        </div>
+        <div class="beneficio-card">
+          <div class="beneficio-icon">📲</div>
+          <h4>Todo desde el celular</h4>
+          <p>Entrás desde cualquier teléfono y ves en tiempo real qué cabañas están ocupadas, quién llega y cuánto falta cobrar.</p>
+        </div>
+        <div class="beneficio-card">
+          <div class="beneficio-icon">✅</div>
+          <h4>Menos errores</h4>
+          <p>El calendario se actualiza solo con cada reserva. No podés confirmar la misma cabaña dos veces para la misma fecha.</p>
+        </div>
+        <div class="beneficio-card">
+          <div class="beneficio-icon">🌐</div>
+          <h4>Presencia en Google</h4>
+          <p>Cuando alguien busca "cabañas Jardín América", tu complejo aparece. Hoy la mayoría de la competencia no tiene eso.</p>
+        </div>
+        <div class="beneficio-card">
+          <div class="beneficio-icon">🔧</div>
+          <h4>Soporte continuo</h4>
+          <p>Quedamos disponibles para ajustes, actualizaciones de precios y cualquier consulta que surja con el sistema.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- PASOS -->
+  <section id="pasos">
+    <div class="container">
+      <span class="section-tag">¿Cómo arrancamos?</span>
+      <h2 class="section-title">Tres pasos para tener el sistema listo</h2>
+      <p class="section-lead" style="margin-bottom: 2rem;">
+        El proceso es simple y rápido. En ningún momento necesitás saber nada de tecnología.
+      </p>
+      <div class="pasos-list">
+        <div class="paso">
+          <div class="paso-num">1</div>
+          <div class="paso-content">
+            <h4>Reunión inicial</h4>
+            <p>Nos juntamos (presencial o por videollamada) para conocer tu complejo: cuántas cabañas tenés, cuánto cobrás por temporada y cómo querés que se vea tu página. Con eso ya tenemos todo lo que necesitamos.</p>
+          </div>
+        </div>
+        <div class="paso">
+          <div class="paso-num">2</div>
+          <div class="paso-content">
+            <h4>Diseño y desarrollo</h4>
+            <p>Construimos el sistema. Te vamos mostrando cómo va quedando para que puedas pedir cambios antes de que esté listo. Este proceso dura aproximadamente 3 a 4 semanas.</p>
+          </div>
+        </div>
+        <div class="paso">
+          <div class="paso-num">3</div>
+          <div class="paso-content">
+            <h4>Lanzamiento y capacitación</h4>
+            <p>Ponemos el sistema en línea y te enseñamos a usarlo en menos de una hora. A partir de ahí, las reservas empiezan a entrar solas.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-logo">
+      <img src="logo-icon.png" alt="Selva.tic" />
+      <span class="footer-logo-name">Selva<span style="color:var(--blue)">.tic</span></span>
+    </div>
+    <p>Tecnología aplicada al turismo · Jardín América, Misiones</p>
+    <div class="footer-contacto">
+      <a href="mailto:enzomantay@gmail.com">
+        <span class="footer-contacto-icon">✉️</span> enzomantay@gmail.com
+      </a>
+      <a href="https://wa.me/5437434483429">
+        <span class="footer-contacto-icon">💬</span> +54 3743 483429
+      </a>
+    </div>
+    <p style="margin-top:0.5rem;">selvatica.com.ar</p>
+  </footer>
+
+</body>
+</html>
