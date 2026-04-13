@@ -329,6 +329,123 @@
       padding: 0.85rem 2.5rem; border-radius: 10px; font-size: 1rem;
     }
 
+    /* ─── QUIZ ─── */
+    #quiz { background: linear-gradient(160deg, #050a14 0%, #0d1b2a 100%); padding: 5rem 0; }
+    .quiz-wrapper { max-width: 780px; margin: 0 auto; }
+    .quiz-progress { display: flex; gap: 0.5rem; margin-bottom: 2.5rem; justify-content: center; }
+    .quiz-progress-step { width: 44px; height: 4px; border-radius: 2px; background: rgba(255,255,255,0.12); transition: background 0.4s; }
+    .quiz-progress-step.active { background: var(--blue); }
+    .quiz-progress-step.done { background: rgba(0,180,216,0.4); }
+    .quiz-step { display: none; animation: fadeSlideIn 0.35s ease; }
+    .quiz-step.active { display: block; }
+    @keyframes fadeSlideIn { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:none; } }
+    .quiz-pregunta { font-family: 'Raleway', sans-serif; font-size: clamp(1.4rem, 3vw, 2rem); font-weight: 800; color: white; text-align: center; margin-bottom: 0.5rem; }
+    .quiz-sub { color: rgba(255,255,255,0.45); text-align: center; margin-bottom: 2rem; font-size: 0.92rem; }
+    .quiz-opciones { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.85rem; }
+    .quiz-opciones.cols-2 { grid-template-columns: repeat(2, 1fr); }
+    .quiz-opcion {
+      background: rgba(255,255,255,0.03); border: 1.5px solid rgba(255,255,255,0.1);
+      border-radius: 14px; padding: 1.4rem 1rem; text-align: center;
+      cursor: pointer; transition: border-color 0.2s, background 0.2s, transform 0.15s;
+      color: white; user-select: none;
+    }
+    .quiz-opcion:hover { border-color: var(--blue); background: rgba(0,180,216,0.08); transform: translateY(-2px); }
+    .quiz-opcion.selected { border-color: var(--blue); background: rgba(0,180,216,0.14); box-shadow: 0 0 0 1px rgba(0,180,216,0.22); }
+    .quiz-opcion-icon { font-size: 2rem; margin-bottom: 0.65rem; }
+    .quiz-opcion-label { font-weight: 600; font-size: 0.88rem; line-height: 1.35; }
+    .quiz-opcion-sub { font-size: 0.74rem; color: rgba(255,255,255,0.38); margin-top: 0.3rem; }
+    .quiz-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 1.75rem; }
+    .quiz-btn-prev {
+      background: none; border: 1px solid rgba(255,255,255,0.18); color: rgba(255,255,255,0.55);
+      padding: 0.65rem 1.4rem; border-radius: 8px; cursor: pointer; font-size: 0.88rem;
+      font-family: 'Inter', sans-serif; transition: border-color 0.2s, color 0.2s;
+    }
+    .quiz-btn-prev:hover { border-color: rgba(255,255,255,0.45); color: white; }
+    .quiz-btn-next {
+      background: var(--blue); color: white; border: none;
+      padding: 0.65rem 2rem; border-radius: 8px; cursor: pointer; font-size: 0.9rem; font-weight: 600;
+      font-family: 'Inter', sans-serif; transition: background 0.2s, transform 0.15s;
+    }
+    .quiz-btn-next:hover:not(:disabled) { background: var(--blue-dk); transform: translateY(-2px); }
+    .quiz-btn-next:disabled { background: rgba(255,255,255,0.1); cursor: default; color: rgba(255,255,255,0.35); }
+    .quiz-resultado { display: none; }
+    .quiz-resultado.show { display: block; animation: fadeSlideIn 0.5s ease; }
+    .quiz-result-card {
+      background: rgba(255,255,255,0.03); border: 1px solid rgba(0,180,216,0.25);
+      border-radius: 20px; padding: 2.5rem; box-shadow: 0 0 60px rgba(0,180,216,0.05);
+    }
+    .quiz-result-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--blue); margin-bottom: 1rem; }
+    .quiz-result-titulo { font-family: 'Raleway', sans-serif; font-size: 1.55rem; font-weight: 800; color: white; margin-bottom: 0.85rem; line-height: 1.25; }
+    .quiz-result-desc { color: rgba(255,255,255,0.58); font-size: 0.95rem; margin-bottom: 1.5rem; line-height: 1.75; }
+    .quiz-result-servicios { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 1.75rem; }
+    .quiz-result-servicios li { display: flex; align-items: flex-start; gap: 0.7rem; color: rgba(255,255,255,0.8); font-size: 0.88rem; }
+    .quiz-result-servicios li::before { content: '✓'; color: var(--blue); font-weight: 700; flex-shrink: 0; margin-top: 2px; }
+    .quiz-result-ref {
+      background: rgba(0,180,216,0.07); border-left: 3px solid rgba(0,180,216,0.45);
+      padding: 0.7rem 1.1rem; border-radius: 0 8px 8px 0; margin-bottom: 1.75rem;
+      font-size: 0.83rem; color: rgba(255,255,255,0.42); font-style: italic; line-height: 1.5;
+    }
+    .quiz-result-cta { display: flex; gap: 0.85rem; flex-wrap: wrap; align-items: center; }
+    .quiz-result-wa {
+      background: #25d366; color: white; font-weight: 700; font-size: 0.92rem;
+      padding: 0.85rem 1.75rem; border-radius: 10px; display: flex; align-items: center; gap: 0.6rem;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .quiz-result-wa:hover { background: #1ebe5d; transform: translateY(-2px); }
+    .quiz-result-reiniciar {
+      background: none; border: 1px solid rgba(255,255,255,0.18); color: rgba(255,255,255,0.5);
+      padding: 0.85rem 1.4rem; border-radius: 10px; cursor: pointer; font-size: 0.85rem;
+      font-family: 'Inter', sans-serif; transition: border-color 0.2s, color 0.2s;
+    }
+    .quiz-result-reiniciar:hover { border-color: rgba(255,255,255,0.45); color: white; }
+
+    /* ─── DEVICE MOCKUPS ─── */
+    #proyectos { background: var(--gray); }
+    .proyectos-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+    .proyecto-mockup-card {
+      background: var(--white); border-radius: 20px; overflow: hidden;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.07); transition: transform 0.25s, box-shadow 0.25s;
+      display: flex; flex-direction: column;
+    }
+    .proyecto-mockup-card:hover { transform: translateY(-6px); box-shadow: 0 20px 56px rgba(0,119,182,0.14); }
+    .device-stage {
+      background: linear-gradient(140deg, #0a1220, #0d1b2a 60%, #0f2035);
+      padding: 2.5rem 0 1.5rem; display: flex; justify-content: center; align-items: flex-end;
+      min-height: 310px; position: relative; overflow: hidden;
+    }
+    .device-stage::before {
+      content:''; position:absolute; inset:0;
+      background: radial-gradient(ellipse at 50% -10%, rgba(0,180,216,0.13) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    @keyframes float-device { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+    .device-wrap { animation: float-device 5s ease-in-out infinite; position: relative; z-index: 1; }
+    .proyecto-mockup-card:nth-child(2) .device-wrap { animation-delay: 1.25s; }
+    .proyecto-mockup-card:nth-child(3) .device-wrap { animation-delay: 0.6s; }
+    .proyecto-mockup-card:nth-child(4) .device-wrap { animation-delay: 1.9s; }
+    .device-phone {
+      width: 210px; background: #111; border-radius: 30px; padding: 14px 10px 10px;
+      box-shadow: 0 28px 56px rgba(0,0,0,0.65), 0 0 0 1.5px rgba(255,255,255,0.1), inset 0 0 0 1px rgba(255,255,255,0.04);
+    }
+    .device-notch { width: 58px; height: 10px; background: #000; border-radius: 10px; margin: 0 auto 8px; display: block; }
+    .device-screen { width: 190px; height: 360px; border-radius: 18px; overflow: hidden; background: #111; }
+    .device-screen iframe {
+      width: 375px; height: 780px;
+      transform: scale(0.507); transform-origin: top left;
+      border: none; pointer-events: none; display: block;
+    }
+    .sim-screen { width: 100%; height: 100%; display: flex; flex-direction: column; }
+    .proyecto-info { padding: 1.5rem 1.75rem 1.75rem; display: flex; flex-direction: column; gap: 0.45rem; }
+    .proyecto-info .proyecto-badge { display: inline-block; background: rgba(0,180,216,0.1); color: var(--blue-dk); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.28rem 0.7rem; border-radius: 50px; }
+    .proyecto-info h3 { font-family: 'Raleway', sans-serif; font-size: 1.2rem; font-weight: 700; color: var(--dark); margin-top: 0.1rem; }
+    .proyecto-info p { color: var(--muted); font-size: 0.87rem; line-height: 1.6; }
+    .proyecto-info .proyecto-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.25rem; }
+    .proyecto-info .proyecto-tags span { background: var(--gray); color: #555; font-size: 0.75rem; padding: 0.22rem 0.65rem; border-radius: 50px; }
+    .proyecto-info .proyecto-link { color: var(--blue); font-size: 0.85rem; font-weight: 600; margin-top: 0.4rem; display: inline-flex; align-items: center; gap: 0.3rem; transition: color 0.2s; }
+    .proyecto-info .proyecto-link:hover { color: var(--blue-dk); }
+    .proyecto-info .proyecto-entregado { font-size: 0.8rem; color: var(--muted); margin-top: 0.1rem; }
+    .proyecto-info .proyecto-entregado::before { content: '✓ '; color: #22c55e; font-weight: 700; }
+
     /* RESPONSIVE */
     @media (max-width: 900px) {
       .hero-inner { flex-direction: column; text-align: center; }
@@ -341,6 +458,10 @@
       .nav-links { display: none; }
       .nav-cta { display: none; }
       .nav-hamburger { display: flex; }
+      .quiz-opciones { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 580px) {
+      .quiz-opciones, .quiz-opciones.cols-2 { grid-template-columns: 1fr; }
     }
 
     /* FADE IN */
@@ -359,6 +480,7 @@
       </a>
       <ul class="nav-links">
         <li><a href="#nosotros">Nosotros</a></li>
+        <li><a href="#quiz" style="color:var(--blue)">Diagnóstico</a></li>
         <li><a href="#servicios">Servicios</a></li>
         <li><a href="#proyectos">Proyectos</a></li>
         <li><a href="#clientes">Clientes</a></li>
@@ -374,6 +496,7 @@
   <!-- MENÚ MOBILE -->
   <div class="mobile-menu" id="mobile-menu">
     <a href="#nosotros" onclick="toggleMenu()">Nosotros</a>
+    <a href="#quiz" onclick="toggleMenu()" style="color:var(--blue)">Diagnóstico</a>
     <a href="#servicios" onclick="toggleMenu()">Servicios</a>
     <a href="#proyectos" onclick="toggleMenu()">Proyectos</a>
     <a href="#clientes" onclick="toggleMenu()">Clientes</a>
@@ -390,7 +513,7 @@
         <p class="hero-sub">Desarrollamos sistemas de gestión, sitios web y soluciones digitales exclusivamente para el sector turístico. No somos developers que aprendieron turismo — somos profesionales del sector que aprendieron a programar.</p>
         <div class="hero-btns">
           <a href="#servicios" class="btn-primary">Ver servicios</a>
-          <a href="#demos" class="btn-ghost">Ver demos en vivo</a>
+          <a href="#quiz" class="btn-ghost">Diagnóstico gratuito →</a>
         </div>
       </div>
       <div class="hero-logo">
@@ -434,6 +557,135 @@
   </section>
 
   <!-- SERVICIOS -->
+  <!-- QUIZ -->
+  <section id="quiz">
+    <div class="container">
+      <div class="section-header" style="margin-bottom:3rem;">
+        <span class="section-tag" style="color:var(--blue-lt)">Diagnóstico gratuito</span>
+        <h2 class="section-title light">¿Qué necesita tu proyecto?</h2>
+        <p class="section-sub" style="color:rgba(255,255,255,0.45)">3 preguntas. Una recomendación personalizada.</p>
+      </div>
+      <div class="quiz-wrapper fade">
+
+        <div class="quiz-progress">
+          <div class="quiz-progress-step active" id="qp1"></div>
+          <div class="quiz-progress-step" id="qp2"></div>
+          <div class="quiz-progress-step" id="qp3"></div>
+        </div>
+
+        <!-- Paso 1: Rubro -->
+        <div class="quiz-step active" id="qs1">
+          <p class="quiz-pregunta">¿Qué tipo de negocio tenés?</p>
+          <p class="quiz-sub">Seleccioná la opción que mejor describe tu actividad.</p>
+          <div class="quiz-opciones">
+            <div class="quiz-opcion" data-q="1" data-v="municipio" onclick="quizSelect(this)">
+              <div class="quiz-opcion-icon">🏛️</div>
+              <div class="quiz-opcion-label">Municipio o Dirección de Turismo</div>
+            </div>
+            <div class="quiz-opcion" data-q="1" data-v="alojamiento" onclick="quizSelect(this)">
+              <div class="quiz-opcion-icon">🏨</div>
+              <div class="quiz-opcion-label">Alojamiento</div>
+              <div class="quiz-opcion-sub">Hotel · hostería · cabaña · complejo</div>
+            </div>
+            <div class="quiz-opcion" data-q="1" data-v="agencia" onclick="quizSelect(this)">
+              <div class="quiz-opcion-icon">✈️</div>
+              <div class="quiz-opcion-label">Agencia de viajes</div>
+            </div>
+            <div class="quiz-opcion" data-q="1" data-v="guia" onclick="quizSelect(this)">
+              <div class="quiz-opcion-icon">🧭</div>
+              <div class="quiz-opcion-label">Guía o prestador de actividades</div>
+              <div class="quiz-opcion-sub">Excursiones · aventura · turismo activo</div>
+            </div>
+            <div class="quiz-opcion" data-q="1" data-v="restaurante" onclick="quizSelect(this)">
+              <div class="quiz-opcion-icon">🍽️</div>
+              <div class="quiz-opcion-label">Restaurante o gastronomía</div>
+            </div>
+            <div class="quiz-opcion" data-q="1" data-v="atractivo" onclick="quizSelect(this)">
+              <div class="quiz-opcion-icon">🌿</div>
+              <div class="quiz-opcion-label">Atractivo, parque o reserva</div>
+            </div>
+          </div>
+          <div class="quiz-nav">
+            <span></span>
+            <button class="quiz-btn-next" id="qn1" disabled onclick="quizNext(2)">Siguiente →</button>
+          </div>
+        </div>
+
+        <!-- Paso 2: Situación -->
+        <div class="quiz-step" id="qs2">
+          <p class="quiz-pregunta">¿Qué tenés hoy?</p>
+          <p class="quiz-sub">Tu punto de partida actual.</p>
+          <div class="quiz-opciones cols-2">
+            <div class="quiz-opcion" data-q="2" data-v="nada" onclick="quizSelect(this)">
+              <div class="quiz-opcion-icon">📵</div>
+              <div class="quiz-opcion-label">Nada digital todavía</div>
+            </div>
+            <div class="quiz-opcion" data-q="2" data-v="redes" onclick="quizSelect(this)">
+              <div class="quiz-opcion-icon">📱</div>
+              <div class="quiz-opcion-label">Solo WhatsApp o redes sociales</div>
+            </div>
+            <div class="quiz-opcion" data-q="2" data-v="sitio" onclick="quizSelect(this)">
+              <div class="quiz-opcion-icon">🌐</div>
+              <div class="quiz-opcion-label">Sitio web básico, sin gestión</div>
+            </div>
+            <div class="quiz-opcion" data-q="2" data-v="algo" onclick="quizSelect(this)">
+              <div class="quiz-opcion-icon">⚙️</div>
+              <div class="quiz-opcion-label">Algo, pero quiero mejorarlo</div>
+            </div>
+          </div>
+          <div class="quiz-nav">
+            <button class="quiz-btn-prev" onclick="quizBack(1)">← Atrás</button>
+            <button class="quiz-btn-next" id="qn2" disabled onclick="quizNext(3)">Siguiente →</button>
+          </div>
+        </div>
+
+        <!-- Paso 3: Objetivo -->
+        <div class="quiz-step" id="qs3">
+          <p class="quiz-pregunta">¿Qué querés lograr?</p>
+          <p class="quiz-sub">Tu objetivo principal.</p>
+          <div class="quiz-opciones cols-2">
+            <div class="quiz-opcion" data-q="3" data-v="reservas" onclick="quizSelect(this)">
+              <div class="quiz-opcion-icon">📅</div>
+              <div class="quiz-opcion-label">Recibir más reservas online</div>
+            </div>
+            <div class="quiz-opcion" data-q="3" data-v="clientes" onclick="quizSelect(this)">
+              <div class="quiz-opcion-icon">👥</div>
+              <div class="quiz-opcion-label">Gestionar mejor mis clientes</div>
+            </div>
+            <div class="quiz-opcion" data-q="3" data-v="visibilidad" onclick="quizSelect(this)">
+              <div class="quiz-opcion-icon">👁️</div>
+              <div class="quiz-opcion-label">Que me encuentren en Google</div>
+            </div>
+            <div class="quiz-opcion" data-q="3" data-v="automatizar" onclick="quizSelect(this)">
+              <div class="quiz-opcion-icon">🤖</div>
+              <div class="quiz-opcion-label">Automatizar procesos manuales</div>
+            </div>
+          </div>
+          <div class="quiz-nav">
+            <button class="quiz-btn-prev" onclick="quizBack(2)">← Atrás</button>
+            <button class="quiz-btn-next" id="qn3" disabled onclick="quizMostrarResultado()">Ver mi recomendación →</button>
+          </div>
+        </div>
+
+        <!-- Resultado -->
+        <div class="quiz-resultado" id="quizResultado">
+          <div class="quiz-result-card">
+            <div class="quiz-result-label">Tu recomendación personalizada</div>
+            <h3 class="quiz-result-titulo" id="qr-titulo"></h3>
+            <p class="quiz-result-desc" id="qr-desc"></p>
+            <ul class="quiz-result-servicios" id="qr-servicios"></ul>
+            <div class="quiz-result-ref" id="qr-ref"></div>
+            <div class="quiz-result-cta">
+              <a id="qr-wa" href="#" target="_blank" class="quiz-result-wa">💬 Hablemos de tu proyecto</a>
+              <button class="quiz-result-reiniciar" onclick="quizReiniciar()">Volver a empezar</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
   <section id="servicios">
     <div class="container">
       <div class="section-header">
@@ -674,44 +926,124 @@
       </div>
       <div class="proyectos-grid">
 
-        <div class="proyecto-card fade">
-          <span class="proyecto-badge">Sistema de gestión · Municipal</span>
-          <h3>TuriGest JA</h3>
-          <p>Sistema de gestión turística para la Dirección de Turismo de Jardín América. Registro de visitantes, estadísticas en tiempo real, cartelera de eventos, informes automáticos e integración con WhatsApp.</p>
-          <div class="proyecto-tags">
-            <span>JavaScript</span><span>Firebase</span><span>HTML/CSS</span>
+        <!-- TuriGest JA — CSS sim (Firebase no permite embedding) -->
+        <div class="proyecto-mockup-card fade">
+          <div class="device-stage">
+            <div class="device-wrap">
+              <div class="device-phone">
+                <span class="device-notch"></span>
+                <div class="device-screen">
+                  <div class="sim-screen" style="background:#0d1b2a;">
+                    <div style="background:#08111f;padding:8px 10px;display:flex;align-items:center;gap:7px;border-bottom:1px solid rgba(0,180,216,0.15);flex-shrink:0;">
+                      <div style="width:14px;height:14px;border-radius:50%;background:#00B4D8;flex-shrink:0;"></div>
+                      <div style="height:5px;background:rgba(255,255,255,0.75);border-radius:2px;width:75px;"></div>
+                    </div>
+                    <div style="padding:8px;display:grid;grid-template-columns:1fr 1fr;gap:5px;">
+                      <div style="background:#1a2744;border-radius:6px;padding:8px;border-top:2px solid #00B4D8;">
+                        <div style="height:4px;width:32px;background:rgba(0,180,216,0.5);border-radius:2px;margin-bottom:5px;"></div>
+                        <div style="color:white;font-size:13px;font-weight:800;font-family:sans-serif;">247</div>
+                      </div>
+                      <div style="background:#1a2744;border-radius:6px;padding:8px;border-top:2px solid rgba(0,180,216,0.5);">
+                        <div style="height:4px;width:26px;background:rgba(0,180,216,0.4);border-radius:2px;margin-bottom:5px;"></div>
+                        <div style="color:white;font-size:13px;font-weight:800;font-family:sans-serif;">89%</div>
+                      </div>
+                    </div>
+                    <div style="margin:0 8px 8px;background:#1a2744;border-radius:6px;padding:9px;flex:1;">
+                      <div style="height:4px;width:55px;background:rgba(0,180,216,0.5);border-radius:2px;margin-bottom:9px;"></div>
+                      <div style="display:flex;flex-direction:column;gap:6px;">
+                        <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:5px;border-bottom:1px solid rgba(255,255,255,0.06);">
+                          <div><div style="height:4px;width:70px;background:rgba(255,255,255,0.5);border-radius:2px;margin-bottom:3px;"></div><div style="height:3px;width:45px;background:rgba(255,255,255,0.22);border-radius:2px;"></div></div>
+                          <div style="height:6px;width:14px;background:#00B4D8;border-radius:3px;"></div>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:5px;border-bottom:1px solid rgba(255,255,255,0.06);">
+                          <div><div style="height:4px;width:60px;background:rgba(255,255,255,0.42);border-radius:2px;margin-bottom:3px;"></div><div style="height:3px;width:38px;background:rgba(255,255,255,0.18);border-radius:2px;"></div></div>
+                          <div style="height:6px;width:10px;background:rgba(0,180,216,0.6);border-radius:3px;"></div>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:5px;border-bottom:1px solid rgba(255,255,255,0.06);">
+                          <div><div style="height:4px;width:75px;background:rgba(255,255,255,0.38);border-radius:2px;margin-bottom:3px;"></div><div style="height:3px;width:52px;background:rgba(255,255,255,0.15);border-radius:2px;"></div></div>
+                          <div style="height:6px;width:18px;background:rgba(0,180,216,0.5);border-radius:3px;"></div>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;align-items:center;">
+                          <div><div style="height:4px;width:55px;background:rgba(255,255,255,0.3);border-radius:2px;margin-bottom:3px;"></div><div style="height:3px;width:35px;background:rgba(255,255,255,0.12);border-radius:2px;"></div></div>
+                          <div style="height:6px;width:12px;background:rgba(0,180,216,0.38);border-radius:3px;"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          <span class="proyecto-entregado">En producción · Municipio de Jardín América</span>
+          <div class="proyecto-info">
+            <span class="proyecto-badge">Sistema de gestión · Municipal</span>
+            <h3>TuriGest JA</h3>
+            <p>Sistema de gestión turística para la Dirección de Turismo de Jardín América. Registro de visitantes, estadísticas en tiempo real, cartelera de eventos e informes automáticos.</p>
+            <div class="proyecto-tags"><span>JavaScript</span><span>Firebase</span><span>HTML/CSS</span></div>
+            <span class="proyecto-entregado">En producción · Municipio de Jardín América</span>
+          </div>
         </div>
 
-        <div class="proyecto-card fade">
-          <span class="proyecto-badge">Agencia de viajes</span>
-          <h3>Olala Viajes</h3>
-          <p>Sitio web para agencia de viajes con catálogo completo de paquetes, filtros por destino, consulta directa por WhatsApp y sección explicativa del proceso de reserva.</p>
-          <div class="proyecto-tags">
-            <span>HTML/CSS</span><span>JavaScript</span>
+        <!-- Olala Viajes — iframe -->
+        <div class="proyecto-mockup-card fade">
+          <div class="device-stage">
+            <div class="device-wrap">
+              <div class="device-phone">
+                <span class="device-notch"></span>
+                <div class="device-screen">
+                  <iframe src="../olala-viajes-web/index.html" loading="lazy" scrolling="no" title="Olala Viajes"></iframe>
+                </div>
+              </div>
+            </div>
           </div>
-          <a href="../olala-viajes-web/index.html" target="_blank" class="proyecto-link">Ver sitio →</a>
+          <div class="proyecto-info">
+            <span class="proyecto-badge">Agencia de viajes</span>
+            <h3>Olala Viajes</h3>
+            <p>Sitio web para agencia con catálogo completo de paquetes, filtros por destino, consulta directa por WhatsApp y sección explicativa del proceso de reserva.</p>
+            <div class="proyecto-tags"><span>HTML/CSS</span><span>JavaScript</span></div>
+            <a href="../olala-viajes-web/index.html" target="_blank" class="proyecto-link">Ver sitio →</a>
+          </div>
         </div>
 
-        <div class="proyecto-card fade">
-          <span class="proyecto-badge">Destino turístico</span>
-          <h3>Jardín América Turismo</h3>
-          <p>Sitio turístico oficial del municipio con atractivos, eventos, folleto interactivo, galería y recursos para visitantes. Actualizado y mantenido en forma continua.</p>
-          <div class="proyecto-tags">
-            <span>HTML/CSS</span><span>JavaScript</span><span>Firebase</span>
+        <!-- Jardín América Turismo — iframe -->
+        <div class="proyecto-mockup-card fade">
+          <div class="device-stage">
+            <div class="device-wrap">
+              <div class="device-phone">
+                <span class="device-notch"></span>
+                <div class="device-screen">
+                  <iframe src="https://enzomantay-del.github.io/jardin-america-turismo/" loading="lazy" scrolling="no" title="Jardín América Turismo"></iframe>
+                </div>
+              </div>
+            </div>
           </div>
-          <a href="https://enzomantay-del.github.io/jardin-america-turismo/" target="_blank" class="proyecto-link">Ver sitio ↗</a>
+          <div class="proyecto-info">
+            <span class="proyecto-badge">Destino turístico</span>
+            <h3>Jardín América Turismo</h3>
+            <p>Sitio turístico con atractivos locales y provinciales, galería, folleto interactivo y recursos para visitantes. Actualizado continuamente.</p>
+            <div class="proyecto-tags"><span>HTML/CSS</span><span>JavaScript</span><span>GitHub Pages</span></div>
+            <a href="https://enzomantay-del.github.io/jardin-america-turismo/" target="_blank" class="proyecto-link">Ver sitio ↗</a>
+          </div>
         </div>
 
-        <div class="proyecto-card fade">
-          <span class="proyecto-badge">Complejo turístico</span>
-          <h3>Complejo Baden Baden</h3>
-          <p>Sitio web completo para complejo turístico en Jardín América. Alojamientos con tabs, tarifario detallado, turismo estudiantil, galería, mapa, modal de promociones, paquetes y conexión con el portal de turismo local.</p>
-          <div class="proyecto-tags">
-            <span>HTML/CSS</span><span>JavaScript</span><span>GitHub Pages</span>
+        <!-- Complejo Baden Baden — iframe -->
+        <div class="proyecto-mockup-card fade">
+          <div class="device-stage">
+            <div class="device-wrap">
+              <div class="device-phone">
+                <span class="device-notch"></span>
+                <div class="device-screen">
+                  <iframe src="https://enzomantay-del.github.io/complejo-baden-baden/" loading="lazy" scrolling="no" title="Complejo Baden Baden"></iframe>
+                </div>
+              </div>
+            </div>
           </div>
-          <a href="https://enzomantay-del.github.io/complejo-baden-baden/" target="_blank" class="proyecto-link">Ver sitio ↗</a>
+          <div class="proyecto-info">
+            <span class="proyecto-badge">Complejo turístico</span>
+            <h3>Complejo Baden Baden</h3>
+            <p>Sitio completo para complejo turístico: alojamientos con tabs, tarifario, turismo estudiantil, galería, modal de promo y calculadora de estadía en tiempo real.</p>
+            <div class="proyecto-tags"><span>HTML/CSS</span><span>JavaScript</span><span>GitHub Pages</span></div>
+            <a href="https://enzomantay-del.github.io/complejo-baden-baden/" target="_blank" class="proyecto-link">Ver sitio ↗</a>
+          </div>
         </div>
 
       </div>
@@ -826,6 +1158,106 @@
       menu.classList.toggle('open');
       btn.classList.toggle('open');
       document.body.style.overflow = menu.classList.contains('open') ? 'hidden' : '';
+    }
+
+    // ─── QUIZ ───
+    const QUIZ_DB = {
+      municipio: { titulo: 'Sistema de gestión turística municipal', desc: 'Un municipio necesita centralizar el registro de visitantes, la gestión de prestadores y la comunicación turística en una sola plataforma integrada. Es exactamente lo que construimos.', servicios: ['Registro de visitantes con datos de origen y estadía', 'Dashboard de indicadores de ocupación en tiempo real', 'Cartelera digital de eventos y festividades', 'Registro y gestión de prestadores turísticos', 'Informes automáticos para las autoridades', 'Portal público de información turística'], ref: 'Proyecto de referencia: TuriGest JA — en producción para la Dirección de Turismo de Jardín América.' },
+      alojamiento: {
+        reservas:   { titulo: 'Sitio web profesional + sistema de reservas', desc: 'Para recibir más reservas, necesitás una presencia digital de nivel que convierta visitantes en huéspedes automáticamente — sin depender del teléfono.', servicios: ['Sitio web con diseño personalizado y galería multimedia', 'Sistema de reservas online con calendario de disponibilidad', 'Calculadora de precios en tiempo real', 'Confirmación automática por WhatsApp', 'Check-in y check-out digital', 'SEO local para búsquedas de la zona'], ref: 'Proyecto de referencia: Complejo Baden Baden — tarifario, galería, turismo estudiantil y calculadora de estadía.' },
+        clientes:   { titulo: 'Panel de gestión de huéspedes y estadías', desc: 'Si ya recibís reservas pero el seguimiento es manual, lo que necesitás es un sistema que centralice huéspedes, estadías e historial por período.', servicios: ['Panel de gestión de huéspedes y estadías', 'Historial de reservas por período', 'Base de datos de clientes con preferencias', 'Envío automático de bienvenida y check-out por WhatsApp', 'Reportes de ocupación mensual y anual'], ref: 'Proyecto de referencia: Complejo Baden Baden — gestión de alojamiento con paquetes y turismo estudiantil.' },
+        visibilidad:{ titulo: 'Sitio web profesional + SEO local', desc: 'Para que Google te muestre cuando alguien busca alojamiento en tu zona, necesitás un sitio bien construido con contenido optimizado.', servicios: ['Sitio web profesional con identidad del complejo', 'SEO local para búsquedas de la zona', 'Integración con Google Maps y reseñas', 'Versión mobile 100% optimizada', 'Galería multimedia de alta calidad'], ref: 'Proyecto de referencia: Complejo Baden Baden — posicionado en Jardín América, Misiones.' },
+        automatizar:{ titulo: 'Automatización de reservas y comunicaciones', desc: 'Si seguís confirmando y recordando reservas manualmente, el siguiente paso es automatizar ese flujo para que funcione solo.', servicios: ['Confirmación automática de reserva por WhatsApp', 'Recordatorio de llegada 24 hs antes', 'Mensaje de check-out con pedido de reseña', 'Calendario de disponibilidad en tiempo real', 'Panel de gestión centralizado'], ref: 'Proyecto de referencia: Complejo Baden Baden — flujo de reserva automatizado.' }
+      },
+      agencia: {
+        reservas:   { titulo: 'Plataforma de venta y reserva de paquetes', desc: 'Una agencia necesita que el cliente explore paquetes, consulte precios y reserve directamente — sin intermediarios manuales.', servicios: ['Catálogo de paquetes con filtros por destino y precio', 'Fichas detalladas con itinerario, incluidos y fotos', 'Sistema de consulta y reserva online', 'Modal de cotización con envío directo por WhatsApp', 'Panel de gestión de reservas y estado de cada cliente'], ref: 'Proyecto de referencia: Olala Viajes — catálogo digital con consulta directa por WhatsApp.' },
+        clientes:   { titulo: 'CRM + gestión de pasajeros', desc: 'Si ya vendés pero el seguimiento de clientes es un caos, necesitás un sistema que centralice el historial de cada pasajero y el estado de cada reserva.', servicios: ['Base de datos de pasajeros con historial completo', 'Seguimiento del estado de cada reserva', 'Generación de presupuestos en PDF', 'Recordatorios automáticos por fechas de viaje', 'Panel de consultas entrantes'], ref: 'Proyecto de referencia: Olala Viajes — gestión interna de clientes y reservas.' },
+        visibilidad:{ titulo: 'Sitio web + SEO para agencias de viajes', desc: 'Para que te encuentren buscando destinos o paquetes, necesitás un sitio con contenido optimizado para búsquedas turísticas.', servicios: ['Sitio web con catálogo completo de destinos', 'Blog de viajes con contenido SEO', 'Galería de destinos con fotos y descripciones', 'Integración con Instagram y Google Maps', 'Versión mobile optimizada'], ref: 'Proyecto de referencia: Olala Viajes — diseño orientado a la conversión de visitantes.' },
+        automatizar:{ titulo: 'Automatización de cotizaciones y seguimiento', desc: 'Si cotizás manualmente lo mismo una y otra vez, podemos automatizar ese flujo para que el cliente reciba su presupuesto en segundos.', servicios: ['Cotización automática según destino y fecha', 'Presupuesto en PDF generado con un clic', 'Envío automático al cliente por WhatsApp', 'Recordatorio para consultas sin respuesta', 'Panel de estado de cada cotización'], ref: 'Proyecto de referencia: Olala Viajes — sistema de cotización integrado.' }
+      },
+      guia: {
+        reservas:   { titulo: 'Sistema de reservas con control de cupos', desc: 'Un guía necesita que el cliente elija la fecha, vea cuántos lugares quedan y reserve directamente — sin llamadas de ida y vuelta.', servicios: ['Sitio web con perfil profesional y experiencia', 'Calendario de salidas con control de cupos por excursión', 'Confirmación automática con indicaciones de encuentro por WhatsApp', 'Recordatorio 24 hs antes de la actividad', 'Vales regalo digitales'], ref: null },
+        clientes:   { titulo: 'Gestión de grupos y participantes', desc: 'Si ya tenés demanda pero el registro de participantes es un caos, lo que necesitás es un panel que centralice cada grupo.', servicios: ['Panel de gestión de grupos por salida', 'Registro de participantes con datos de contacto', 'Confirmación automática de reserva', 'Base de datos de clientes recurrentes', 'Estadísticas de actividad por período'], ref: null },
+        visibilidad:{ titulo: 'Perfil profesional + posicionamiento local', desc: 'Para que te encuentren buscando excursiones en tu zona, necesitás un sitio profesional con SEO local y presencia en Google Maps.', servicios: ['Sitio web con perfil, habilitaciones y testimonios', 'Galería de fotos y videos de las actividades', 'SEO local para búsquedas de actividades en la zona', 'Integración con Google Maps y reseñas verificadas', 'Integración con Instagram'], ref: null },
+        automatizar:{ titulo: 'Confirmaciones y recordatorios automáticos', desc: 'Si mandás indicaciones y recordatorios manualmente antes de cada excursión, podemos automatizar todo ese flujo.', servicios: ['Confirmación automática con indicaciones de encuentro', 'Recordatorio por WhatsApp 24 hs antes', 'Mensaje post-actividad pidiendo reseña', 'Notificación de cupo lleno a lista de espera', 'Panel de estado de cada reserva'], ref: null }
+      },
+      restaurante: {
+        reservas:   { titulo: 'Reservas de mesa online + menú digital QR', desc: 'Para un restaurante con turismo, el cliente tiene que poder reservar mesa antes de llegar al destino — desde el teléfono.', servicios: ['Sistema de reservas con control de capacidad por horario', 'Menú digital QR accesible desde el celular del comensal', 'Panel de gestión de reservas del día', 'Confirmación automática por WhatsApp', 'Recordatorio el día de la visita'], ref: null },
+        clientes:   { titulo: 'Fidelización + historial de clientes', desc: 'Si tenés clientes frecuentes pero no los registrás, perdés la posibilidad de contactarlos ante novedades o fechas especiales.', servicios: ['Registro de clientes con historial de visitas', 'Sistema de reservas con datos del comensal', 'Notificaciones de eventos o menú especial', 'Integración con WhatsApp para comunicados', 'Menú digital QR actualizable'], ref: null },
+        visibilidad:{ titulo: 'Presencia digital + posicionamiento gastronómico', desc: 'Para aparecer cuando alguien busca dónde comer en tu ciudad, necesitás un sitio visualmente potente con integración a Google Maps.', servicios: ['Sitio web con historia, ambiente y especialidades', 'Galería de platos y salón optimizada para redes', 'Integración con Google Maps y reseñas', 'SEO local para búsquedas gastronómicas', 'Menú digital QR actualizable'], ref: null },
+        automatizar:{ titulo: 'Automatización de comunicaciones con comensales', desc: 'Si confirmás reservas y mandás recordatorios manualmente, podemos automatizar todo ese flujo para que funcione solo.', servicios: ['Confirmación automática de reserva por WhatsApp', 'Recordatorio el día de la visita', 'Mensaje post-visita con pedido de reseña', 'Gestión automatizada de lista de espera', 'Panel de ocupación semanal'], ref: null }
+      },
+      atractivo: {
+        reservas:   { titulo: 'Venta de entradas online + control de aforo', desc: 'Para un atractivo con cupo, la venta digital de tickets con selección de turno y control en tiempo real es la solución más efectiva.', servicios: ['Venta de entradas online con selección de fecha y turno', 'Control de aforo con alertas de cupo disponible', 'Entrada digital enviada por WhatsApp', 'Dashboard de visitantes por día y período', 'Panel de gestión de visitas programadas'], ref: null },
+        clientes:   { titulo: 'Estadísticas de visitantes + dashboard de gestión', desc: 'Si recibís visitantes pero no tenés datos sobre quiénes son y de dónde vienen, estás perdiendo información clave.', servicios: ['Registro digital de visitantes con datos de origen', 'Dashboard de estadísticas por día, semana y mes', 'Mapas de procedencia de visitantes', 'Exportación de datos a Excel y PDF', 'Encuesta de satisfacción post-visita automática'], ref: 'Proyecto de referencia: TuriGest JA — estadísticas de visitantes para la Dirección de Turismo de Jardín América.' },
+        visibilidad:{ titulo: 'Sitio informativo de alto impacto visual', desc: 'Para motivar la visita antes de llegar, necesitás un sitio visualmente potente con información práctica y posicionamiento en Google.', servicios: ['Sitio web con galería visual de alto impacto', 'Mapa interactivo con cómo llegar', 'Tarifas y horarios actualizables', 'SEO local para búsquedas turísticas de la zona', 'Integración con Google Maps y reseñas'], ref: null },
+        automatizar:{ titulo: 'Flujo automatizado: entrada → guía → encuesta', desc: 'Automatizá el ciclo completo: compra la entrada, recibe la guía de visita, y al terminar recibe la encuesta de satisfacción.', servicios: ['Entrada digital enviada automáticamente por WhatsApp', 'Guía de visita digital con información práctica', 'Recordatorio el día de la visita', 'Encuesta de satisfacción post-visita automática', 'Panel de resultados y tendencias'], ref: null }
+      }
+    };
+
+    const QUIZ_RESP = { 1: null, 2: null, 3: null };
+
+    function quizSelect(el) {
+      const q = el.dataset.q;
+      document.querySelectorAll(`.quiz-opcion[data-q="${q}"]`).forEach(o => o.classList.remove('selected'));
+      el.classList.add('selected');
+      QUIZ_RESP[q] = el.dataset.v;
+      document.getElementById('qn' + q).disabled = false;
+    }
+
+    function quizNext(toStep) {
+      document.getElementById('qs' + (toStep - 1)).classList.remove('active');
+      document.getElementById('qs' + toStep).classList.add('active');
+      for (let i = 1; i <= 3; i++) {
+        const p = document.getElementById('qp' + i);
+        p.classList.toggle('done', i < toStep);
+        p.classList.toggle('active', i === toStep);
+      }
+    }
+
+    function quizBack(toStep) {
+      document.getElementById('qs' + (toStep + 1)).classList.remove('active');
+      document.getElementById('qs' + toStep).classList.add('active');
+      for (let i = 1; i <= 3; i++) {
+        const p = document.getElementById('qp' + i);
+        p.classList.toggle('done', i < toStep);
+        p.classList.toggle('active', i === toStep);
+      }
+    }
+
+    function quizMostrarResultado() {
+      const rubro = QUIZ_RESP[1], objetivo = QUIZ_RESP[3];
+      const db = QUIZ_DB[rubro];
+      const rec = db.titulo ? db : (db[objetivo] || Object.values(db)[0]);
+
+      document.getElementById('qr-titulo').textContent = rec.titulo;
+      document.getElementById('qr-desc').textContent = rec.desc;
+      document.getElementById('qr-servicios').innerHTML = rec.servicios.map(s => `<li>${s}</li>`).join('');
+
+      const refEl = document.getElementById('qr-ref');
+      refEl.textContent = rec.ref || '';
+      refEl.style.display = rec.ref ? '' : 'none';
+
+      const labels = { municipio:'municipio', alojamiento:'alojamiento', agencia:'agencia de viajes', guia:'guía / prestador', restaurante:'restaurante', atractivo:'atractivo / parque' };
+      const msg = `Hola! Hice el diagnóstico en Selva.tic.\n🏢 Negocio: ${labels[rubro]}\n🎯 Objetivo: ${objetivo}\n\nMe interesa: "${rec.titulo}"`;
+      document.getElementById('qr-wa').href = `https://wa.me/5493743483429?text=${encodeURIComponent(msg)}`;
+
+      document.querySelectorAll('.quiz-step').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.quiz-progress-step').forEach(p => { p.classList.remove('active'); p.classList.add('done'); });
+      document.getElementById('quizResultado').classList.add('show');
+    }
+
+    function quizReiniciar() {
+      QUIZ_RESP[1] = QUIZ_RESP[2] = QUIZ_RESP[3] = null;
+      document.querySelectorAll('.quiz-opcion').forEach(o => o.classList.remove('selected'));
+      ['qn1','qn2','qn3'].forEach(id => { document.getElementById(id).disabled = true; });
+      document.getElementById('quizResultado').classList.remove('show');
+      document.querySelectorAll('.quiz-step').forEach(s => s.classList.remove('active'));
+      document.getElementById('qs1').classList.add('active');
+      document.querySelectorAll('.quiz-progress-step').forEach((p, i) => {
+        p.classList.remove('done', 'active');
+        if (i === 0) p.classList.add('active');
+      });
     }
 
     // Form → Email
