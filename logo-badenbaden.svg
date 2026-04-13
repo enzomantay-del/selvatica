@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 80" fill="none">
+  <text x="110" y="22" font-family="Georgia, serif" font-size="9" font-weight="400" fill="rgba(255,255,255,0.55)" text-anchor="middle" letter-spacing="4">COMPLEJO</text>
+  <text x="110" y="52" font-family="Georgia, serif" font-size="24" font-weight="700" fill="white" text-anchor="middle" letter-spacing="2">Baden Baden</text>
+  <text x="110" y="68" font-family="Georgia, serif" font-size="8" fill="rgba(255,255,255,0.4)" text-anchor="middle" letter-spacing="3">JARDÍN AMÉRICA · MISIONES</text>
+  <line x1="30" y1="34" x2="85" y2="34" stroke="rgba(255,255,255,0.2)" stroke-width="0.5"/>
+  <line x1="135" y1="34" x2="190" y2="34" stroke="rgba(255,255,255,0.2)" stroke-width="0.5"/>
+</svg>
